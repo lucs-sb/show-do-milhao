@@ -1,0 +1,511 @@
+{
+	"info": {
+		"_postman_id": "fdb1b4c0-f4e1-46a9-9976-93430b87c011",
+		"name": "Show do Milhão",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "usuario",
+			"item": [
+				{
+					"name": "usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"edu\",\r\n    \"nickname\": \"edu\",\r\n    \"password\": \"soares\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"lucs\",\r\n    \"nickname\": \"lucs\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/20",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/20",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"20"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "pergunta",
+			"item": [
+				{
+					"name": "pergunta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/question/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pergunta aceitas ou não aceitas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/question?userId&accepted",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": null
+								},
+								{
+									"key": "accepted",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "perguntas que o usuario pode aprovar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/question/user/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pergunta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userAccountId\": 1,\r\n    \"statement\": \"Qual a capital do Ceará ?\",\r\n    \"answers\":[\r\n        {\r\n            \"description\": \"Fortaleza\",\r\n            \"correct\": true\r\n        },\r\n        {\r\n            \"description\": \"Crateús\",\r\n            \"correct\": false\r\n        },\r\n        {\r\n            \"description\": \"Sobral\",\r\n            \"correct\": false\r\n        },\r\n        {\r\n            \"description\": \"Canidé\",\r\n            \"correct\": false\r\n        }\r\n    ] \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/question",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pergunta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"questionId\": 7,\r\n    \"userAccountId\": 1,\r\n    \"statement\": \"Qual a capital do Ceará ?\",\r\n    \"answers\":[\r\n        {\r\n            \"answerId\": 29,\r\n            \"description\": \"Fortaleza\",\r\n            \"correct\": true\r\n        },\r\n        {\r\n            \"answerId\": 32,\r\n            \"description\": \"Crateús\",\r\n            \"correct\": false\r\n        },\r\n        {\r\n            \"answerId\": 31,\r\n            \"description\": \"Sobral\",\r\n            \"correct\": false\r\n        },\r\n        {\r\n            \"answerId\": 30,\r\n            \"description\": \"Poranga\",\r\n            \"correct\": false\r\n        }\r\n    ] \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/question",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "aprovar ou denunciar pergunta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/question/1?isReport&userId&approve",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question",
+								"1"
+							],
+							"query": [
+								{
+									"key": "isReport",
+									"value": null
+								},
+								{
+									"key": "userId",
+									"value": null
+								},
+								{
+									"key": "approve",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pergunta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/question/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "partida",
+			"item": [
+				{
+					"name": "partida",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/match/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"match",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "partidas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/match/user/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"match",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "partidas encerradas ou em aberto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/match?userId=1&ended=0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"match"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1"
+								},
+								{
+									"key": "ended",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "partida",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userAccountId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/match",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"match"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "partida",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"matchId\": 1,\r\n    \"userAccountId\": 1,\r\n    \"award\": 50000,\r\n    \"ended\": true,\r\n    \"lastQuestionAnswered\": 2,\r\n    \"deletedAnswers\": false,\r\n    \"reasonForClosing\": \"Parou\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/match",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"match"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "gerar token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json(),\r",
+							"    access_token = response.access_token,\r",
+							"    refresh_token = response.refresh_token;\r",
+							"pm.collectionVariables.set(\"TOKEN\", access_token);\r",
+							"pm.collectionVariables.set(\"REFRESH_TOKEN\", refresh_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "drhhdrbDRFGHSvds4235!@##$",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ShowDoMilhao",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "lucas",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "soares",
+							"type": "default"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/oauth/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "TOKEN",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "url",
+			"value": "http://localhost:8080",
+			"type": "default"
+		},
+		{
+			"key": "REFRESH_TOKEN",
+			"value": ""
+		}
+	]
+}
