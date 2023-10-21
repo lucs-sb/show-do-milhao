@@ -39,7 +39,7 @@ public class MatchService {
     }
 
     @Transactional
-    public void create(Match newMatch){
+    public Long create(Match newMatch){
         Optional<UserAccount> userAccount = Optional.ofNullable(userAccountRepository.findById(newMatch.getUserAccountId()).orElseThrow(() -> {
             throw new MessageNotFoundException("Usuário não encontrado");
         }));
@@ -58,6 +58,8 @@ public class MatchService {
         match.setQuestions(matchQuestions);
 
         repository.save(match);
+
+        return match.getMatchId();
     }
 
     @Transactional

@@ -32,9 +32,9 @@ public class QuestionController {
     })
     @GetMapping("/{questionId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity<Optional<Question>> findById(@PathVariable Long questionId) throws Exception{
+    public ResponseEntity<Optional<QuestionDTO>> findById(@PathVariable Long questionId) throws Exception{
         try {
-            Optional<Question> question = service.findQuestionById(questionId);
+            Optional<QuestionDTO> question = service.findQuestionById(questionId);
             return new ResponseEntity<>(question, HttpStatus.OK);
         }catch (Exception ex){
             throw new Exception(ex);
