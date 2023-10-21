@@ -1,25 +1,24 @@
+<notifier-container></notifier-container>
+
 <div class="container">
     <div class="div-form">
-        <div class="question"><p>pergunta</p></div>
+        <div class="question"><p>{{question?.statement}}</p></div>
         <div class="answers">
-            <button class="answer">resposta</button>
-            <button class="answer">resposta</button>
-            <button class="answer">resposta</button>
-            <button class="answer">resposta</button>
+            <button *ngFor="let answer of answers" class="answer" (click)="respond(answer)">{{answer.description}}</button>
             <div class="div-btn">
-                <button class="btn">Eliminar duas perguntas</button>
-                <button class="btn">Desistir</button>
+                <button class="btn" (click)="deleteAnswers()" [disabled]="deletedAnswers">Eliminar duas perguntas</button>
+                <button class="btn" (click)="stop()">Parar</button>
             </div>
         </div>
     </div>
     <div class="div-info">
         <div class="infos">
             <div class="infos1">
-                <div><h3>Acertando, você ganha</h3><p>1000 R$</p></div>
+                <div><h3>Acertando </h3><p>{{info[0]}}</p></div>
             </div>
             <div class="infos2">
-                <div><h3>Desistindo, você ganha</h3><p>0 R$</p></div>
-                <div><h3>Perdendo, você ganha</h3><p>0 R$</p></div>
+                <div><h3>Desistindo </h3><p>{{info[1]}}</p></div>
+                <div><h3>Perdendo </h3><p>{{info[2]}}</p></div>
             </div>
         </div>
         <div class="div-img"><img id="img" src="https://show-do-milhao.vercel.app/imagens/logo.png" alt="" class="images"></div>
