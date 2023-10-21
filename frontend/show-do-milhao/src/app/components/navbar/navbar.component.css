@@ -1,0 +1,39 @@
+#div-search{
+    padding-top: 20px;
+}
+
+.card{
+    color: inherit;
+    text-decoration: none;
+}
+
+.card-group > label{
+    width: 100%;
+    color: black;
+    display: block;
+}
+
+.form-outline > label{
+    width: 100%;
+    color: black;
+    display: block;
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "select ul";
+}
+
+.page-size{
+    grid-area: select;
+    text-align: end;
+    padding-top: 3px;
+    padding-right: 10px;
+}
+
+.page{
+    grid-area: ul;
+    justify-content: center;
+}
