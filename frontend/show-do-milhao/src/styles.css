@@ -1,32 +1,15 @@
 body {
     overflow: hidden;
-    position: relative;
     height: 100vh;
     width: 100vw;
     background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url("C:\Users\soare\Downloads\background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
 }
 
 .menu {
-    background-position-y: bottom;
     position: absolute;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
     bottom: 0px;
     width: 100%;
     height: 150px;
