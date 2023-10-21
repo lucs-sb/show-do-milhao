@@ -25,21 +25,21 @@ export class NavbarComponent implements OnInit {
     private router: Router) { this.notifier = notifier; }
 
   ngOnInit(): void {
-    //this.getUserById();
+    this.getUserById();
   }
 
   getUserById(): void{
-    /*try {
+    try {
       this.userService.getUserById(localStorage.getItem("user_id")).subscribe((req) => {
         this.name = req.name;
-        this.url_photo = req.url_photo;
+        this.url_photo = req.avatar;
       }, () => {
         this.storage.logoutUser();
         this.router.navigate(['/']);
       }); 
     }catch (ex: any) {
       this.notifier.notify('error', ex);
-    }*/
+    }
   }
 
   logout() {

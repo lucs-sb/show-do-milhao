@@ -29,5 +29,6 @@ export class StorageService {
 
   logoutUser() {
     localStorage.removeItem('authorization');
+    localStorage.removeItem('user_id');
   }
 }
