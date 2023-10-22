@@ -1,0 +1,64 @@
+<app-navbar></app-navbar>
+<notifier-container></notifier-container>
+
+<div class="row">
+    <div class="card">
+        <div class="card-top">
+            <img id="img" src="{{user.avatar}}" alt="" [hidden]="!user.avatar">
+            <p>Olá, {{user.name}}!</p>
+        </div>
+        <div class="card-group">
+            <label>Nome</label>
+            <p class="card-title text-center" style="color: rgb(116, 116, 116);">{{user.name}}</p>
+        </div>
+        <div class="card-group">
+            <label>Nickname</label>
+            <p class="card-title text-center" style="color: rgb(116, 116, 116);">{{user.nickname}}</p>
+        </div>
+        <div class="modal-footer">
+            <div id="btn-create">
+                <a routerLink="#" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Editar</a>
+            </div>
+            <button type="button" class="btn btn-outline-danger" style="margin: 5px" (click)="deleteUser()" data-bs-dismiss="modal">Excluir minha conta</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="exampleModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar meus dados</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formUser" id="form">
+                    
+                    <div class="form-outline form-white mb-2">
+                        <label>Nome</label>
+                        <input class="input" type="text" formControlName="name" placeholder="Nome">
+                    </div>
+            
+                    <div class="form-outline form-white mb-2">
+                        <label>Nickname</label>
+                        <input class="input" type="nickname" formControlName="nickname" placeholder="Nickname">
+                    </div>
+                    
+                    <div class="form-outline form-white mb-2">
+                        <label>Redefinir senha</label>
+                        <input class="input" type="password" formControlName="password" placeholder="Senha">
+                    </div>
+                    
+                    <div class="form-outline form-white mb-2">  
+                        <label>Avatar</label>
+                        <input class="input" type="text" formControlName="url_photo" placeholder="URL da foto" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-outline-warning" style="margin: 5px" (click)="updateUser()" data-bs-dismiss="modal">Editar</button>
+            </div>
+      </div>
+    </div>
+</div>

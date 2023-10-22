@@ -11,6 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PlayComponent } from './components/play/play.component';
 import { RegisterComponent } from './components/register/register.component';
+import { UserComponent } from './components/user/user.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -60,7 +61,8 @@ const customNotifierOptions: NotifierOptions = {
     HomeComponent,
     NavbarComponent,
     PlayComponent,
-    RegisterComponent
+    RegisterComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
