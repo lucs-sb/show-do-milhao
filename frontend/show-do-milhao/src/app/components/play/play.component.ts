@@ -36,7 +36,7 @@ export class PlayComponent implements OnInit {
    *
    * @param {NotifierService} notifier Notifier service
    */
-  constructor(private storage: StorageService, 
+  constructor(
     notifier: NotifierService, 
     private matchService: MatchService, 
     private questionService: QuestionService,
@@ -53,7 +53,6 @@ export class PlayComponent implements OnInit {
         this.deletedAnswers = this.match.deletedAnswers;
         this.lastQuestionAnswered = this.match.lastQuestionAnswered;
         this.info = this.prizeTable[this.match.lastQuestionAnswered];
-
 
         this.questionService.getQuestionById(this.match.questions.find(x => x.position == this.match?.lastQuestionAnswered)?.questionId).subscribe(
           (res) => {
@@ -182,5 +181,9 @@ export class PlayComponent implements OnInit {
     };
 
     this.matchService.updateMatch(body).subscribe(); 
+  }
+
+  report(): void{
+    this.questionService.reportQuestion(this.question?.questionId, true).subscribe();
   }
 }
