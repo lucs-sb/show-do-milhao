@@ -10,6 +10,7 @@ import { NotifierOptions, NotifierModule } from 'angular-notifier';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PlayComponent } from './components/play/play.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -58,7 +59,8 @@ const customNotifierOptions: NotifierOptions = {
     LoginComponent,
     HomeComponent,
     NavbarComponent,
-    PlayComponent
+    PlayComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

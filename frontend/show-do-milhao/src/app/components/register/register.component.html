@@ -1,0 +1,52 @@
+<notifier-container></notifier-container>
+
+<div class="container">
+    <div id="div-img">
+      <img id="img" src="https://show-do-milhao.vercel.app/imagens/logo.png" alt="" class="images">
+    </div>
+    <div id="div-form">
+        <form [formGroup]="formUser" id="form">
+                  
+            <h3 id="h3-form" class="fw-bold mb-1 text-uppercase" style="color: darkolivegreen;">Crie sua conta</h3>
+      
+            <div class="form-outline form-white mb-2">
+              <input class="input" id="name" type="text" formControlName="name" placeholder="Nome" required>
+              <div *ngIf="formUser.get('name')?.errors?.['required'] && formUser.get('name')?.touched" style="color: red;">
+                Nome obrigatório
+              </div>
+            </div>
+      
+            <div class="form-outline form-white mb-2">
+              <input class="input" id="url_photo" type="text" formControlName="url_photo" placeholder="Avatar">
+            </div>
+            
+            <div class="form-outline form-white mb-2">
+              <input class="input" id="nickname" type="text" formControlName="nickname" placeholder="Nickname" required>
+              <div *ngIf="formUser.get('nickname')?.errors?.['nickname'] && formUser.get('nickname')?.touched" style="color: red;">
+                Nickname obrigatório
+              </div>
+            </div>
+            
+            <div class="form-outline form-white mb-2">  
+              <input class="input" id="password" type="password" formControlName="password" placeholder="Senha" required>
+              <div *ngIf="formUser.get('password')?.errors?.['required'] && formUser.get('password')?.touched" style="color: red;">
+                Senha obrigatória
+              </div>
+            </div>
+      
+            <div  class="div-btn">
+              <button type="submit"  (click)="register()" class="btn btn-lg px-5 mt-3">
+                Criar conta
+              </button>
+            </div>
+      
+            <p><span>ou</span></p>
+      
+            <div class="div-btn">
+              <button id="btn-create" type="submit" (click)="login()" class="btn btn-lg px-5 mt-3">
+                Fazer login
+              </button>
+            </div>
+          </form>
+    </div>
+  </div>
