@@ -51,4 +51,11 @@ export class UserService {
     };
     return this.http.delete<any>(this.API_URL+`/${id}`, httpOptions); 
   }
+
+  getHallDaFama() {
+    const httpOptions = {
+      headers: { authorization: 'Basic ' + localStorage.getItem("authorization") },
+    };
+    return this.http.get<User[]>(this.API_URL+'/hall-da-fama', httpOptions); 
+  }
 }

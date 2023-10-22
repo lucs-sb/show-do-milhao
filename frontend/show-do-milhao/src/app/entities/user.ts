@@ -3,4 +3,5 @@ export interface User{
     nickname: string;
     name: string;
     avatar: string;
+    totalAward: number;
 }

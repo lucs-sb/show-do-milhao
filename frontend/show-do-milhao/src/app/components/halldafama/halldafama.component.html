@@ -1,0 +1,13 @@
+<app-navbar></app-navbar>
+<notifier-container></notifier-container>
+
+<div class="row">
+    <div class="card">
+        <div class="card-top">
+            <p>Hall da fama</p>
+        </div>
+        <div *ngFor="let user of users" class="card-group">
+            <p class="card-title text-center" style="color: rgb(116, 116, 116);">{{user.name}} - {{user.totalAward}}</p>
+        </div>
+    </div>
+</div>

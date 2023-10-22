@@ -1,0 +1,19 @@
+.row{
+    width: 500px;
+    margin: auto;
+    padding-top: 100px;
+}
+
+.card{
+    box-shadow: 1px 1px 5px;
+    padding: 15px;
+
+}
+
+.card-top{
+    text-align: center;
+}
+
+.card-group{
+    margin-bottom: 50px;
+}

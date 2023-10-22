@@ -12,6 +12,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { PlayComponent } from './components/play/play.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserComponent } from './components/user/user.component';
+import { HalldafamaComponent } from './components/halldafama/halldafama.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -62,7 +63,8 @@ const customNotifierOptions: NotifierOptions = {
     NavbarComponent,
     PlayComponent,
     RegisterComponent,
-    UserComponent
+    UserComponent,
+    HalldafamaComponent
   ],
   imports: [
     BrowserModule,
