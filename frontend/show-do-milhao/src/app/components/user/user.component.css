@@ -1,5 +1,5 @@
 .row{
-    width: 500px;
+    width: 40%;
     margin: auto;
     padding-top: 100px;
 }
@@ -7,7 +7,7 @@
 .card{
     box-shadow: 1px 1px 5px;
     padding: 15px;
-
+    background-color: blanchedalmond;
 }
 
 .card-top{
@@ -34,4 +34,25 @@
     border-radius: 50px;
     width: 100px;
     height: 100px;
+}
+
+.modal-header{
+    border-bottom-color: darkolivegreen;
+}
+
+.modal-footer{
+    border-top-color: darkolivegreen;
+}
+
+.input{
+    border: 2px solid darkolivegreen;
+    border-radius: 6px;
+    width: 40%;
+    padding-bottom: 6px;
+    background-color: blanchedalmond;
+}
+
+.input::placeholder{
+    color: darkolivegreen;
+    padding-left: 8px;
 }
