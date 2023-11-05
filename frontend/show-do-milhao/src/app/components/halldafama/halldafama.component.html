@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <notifier-container></notifier-container>
 
-<div class="row">
+<!--<div class="row">
     <div class="card">
         <div class="card-top">
             <p>Hall da fama</p>
@@ -9,5 +9,27 @@
         <div *ngFor="let user of users" class="card-group">
             <p class="card-title text-center" style="color: rgb(116, 116, 116);">{{user.name}} - {{user.totalAward}}</p>
         </div>
+    </div>
+</div>
+-->
+<div class="row">
+    <div class="table-responsive">
+        <h3>Hall da fama</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th scope="col" style="color: darkolivegreen; background-color: blanchedalmond;">Posição</th>
+                  <th scope="col" style="color: darkolivegreen; background-color: blanchedalmond;">Nickname</th>
+                  <th scope="col" style="color: darkolivegreen; background-color: blanchedalmond;">Pontuação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users; let i = index">
+                  <th scope="row" style="color: darkolivegreen; background-color: blanchedalmond;">{{i + 1}}</th>
+                  <td style="color: darkolivegreen; background-color: blanchedalmond;">{{user.nickname}}</td>
+                  <td style="color: darkolivegreen; background-color: blanchedalmond;">R$ {{mask(user.totalAward.toString())}}</td>
+                </tr>
+              </tbody>
+        </table>
     </div>
 </div>

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class HallDaFamaDTO {
     private Long userAccountId;
-    private String name;
+    private String nickname;
     private Long totalAward;
 
     public HallDaFamaDTO() {

@@ -27,10 +27,10 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Long>
             "AND deletion_date IS NULL ORDER BY RAND() LIMIT 5")
     List<UserAccount> findUsersToValidateQuestion(Long id);
 
-    @Query("SELECT hall.name, hall.user_account_id, hall.total_award FROM " +
-            "(SELECT ua.user_account_id, ua.name, SUM(m.award) AS total_award FROM tb_user_account AS ua " +
+    @Query("SELECT hall.nickname, hall.user_account_id, hall.total_award FROM " +
+            "(SELECT ua.user_account_id, ua.nickname, SUM(m.award) AS total_award FROM tb_user_account AS ua " +
             "INNER JOIN tb_match AS m ON m.user_account_id = ua.user_account_id " +
-            "WHERE ua.deletion_date IS NULL AND m.ended = 1 GROUP BY ua.name) hall " +
+            "WHERE ua.deletion_date IS NULL AND m.ended = 1 GROUP BY ua.nickname) hall " +
             "ORDER BY hall.total_award DESC LIMIT 10")
     List<HallDaFamaDTO> findHallDaFama();
 }
