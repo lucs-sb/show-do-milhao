@@ -29,8 +29,11 @@ public class QuestionService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Question> findQuestionById(Long questionId){
-        return repository.findById(questionId);
+    public Optional<QuestionDTO> findQuestionById(Long questionId){
+        Optional<Question> question = repository.findById(questionId);
+        Set<Answer> answers = new HashSet<>();
+        question.get().getAnswers().forEach(x -> answers.add(answerRepository.findById(x.getAnswerId()).get()));
+        return Optional.of(new QuestionDTO(question.get(), answers));
     }
 
     @Transactional(readOnly = true)
