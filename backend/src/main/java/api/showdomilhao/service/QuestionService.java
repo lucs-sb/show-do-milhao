@@ -132,7 +132,7 @@ public class QuestionService {
     }
 
     @Transactional
-    public void approveQuestion(Long questionId, Long userId, boolean approve){
+    public void validateQuestion(Long questionId, Long userId, boolean approve){
         Optional<Question> question = Optional.ofNullable(repository.findByIdAndUserId(questionId, userId)
                 .orElseThrow(() -> {
                     throw new MessageNotFoundException("Pergunta não esta na lista de perguntas para aprovações desse usuário");

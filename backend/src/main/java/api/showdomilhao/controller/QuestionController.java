@@ -107,22 +107,34 @@ public class QuestionController {
         }
     }
 
-    @Operation(summary = "Aprovar ou denunciar pergunta pelo ID")
+    @Operation(summary = "Denunciar pergunta pelo ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Pergunta editada", content = { @Content }),
             @ApiResponse(responseCode = "404", description = "Usuário ou pergunta não encontrado", content =
             @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = MessageExceptionHandler.class))))
     })
-    @PutMapping("/{questionId}")
+    @PutMapping("/{questionId}/report")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity updateQuestion(@PathVariable Long questionId, @RequestParam boolean isReport,
-                                          @RequestParam Long userId, @RequestParam boolean approve) throws Exception{
+    public ResponseEntity reportQuestion(@PathVariable Long questionId) throws Exception{
         try {
-            if (isReport)
-                service.reportQuestion(questionId);
-            else
-                service.approveQuestion(questionId, userId, approve);
+            service.reportQuestion(questionId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (Exception ex){
+            throw new Exception(ex);
+        }
+    }
 
+    @Operation(summary = "Aprovar ou reprovar pergunta pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Pergunta editada", content = { @Content }),
+            @ApiResponse(responseCode = "404", description = "Usuário ou pergunta não encontrado", content =
+            @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = MessageExceptionHandler.class))))
+    })
+    @PutMapping("/{questionId}/validate")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public ResponseEntity validateQuestion(@PathVariable Long questionId, @RequestParam Long userId, @RequestParam boolean validation) throws Exception{
+        try {
+            service.validateQuestion(questionId, userId, validation);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception ex){
             throw new Exception(ex);
