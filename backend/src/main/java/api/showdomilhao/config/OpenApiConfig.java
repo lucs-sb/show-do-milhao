@@ -8,6 +8,6 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @Configuration
 @OpenAPIDefinition
-@SecurityScheme(name = "oauth", type = SecuritySchemeType.HTTP, scheme = "bearer")
+@SecurityScheme(name = "token JWT", type = SecuritySchemeType.HTTP, scheme = "bearer")
 public class OpenApiConfig {
 }
