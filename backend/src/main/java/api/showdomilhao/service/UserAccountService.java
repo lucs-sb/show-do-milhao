@@ -10,6 +10,9 @@ import api.showdomilhao.exceptionHandler.exceptions.MessageNotFoundException;
 import api.showdomilhao.repository.LoginRepository;
 import api.showdomilhao.repository.RoleRepository;
 import api.showdomilhao.repository.UserAccountRepository;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,11 +31,6 @@ import java.util.*;
 
 @Service
 public class UserAccountService {
-    @Value("${directory.root}")
-    private String rootDirectory;
-    @Value("${directory.file}")
-    private String fileDirectory;
-
     @Autowired
     private UserAccountRepository repository;
     @Autowired
@@ -41,6 +39,11 @@ public class UserAccountService {
     private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AmazonS3 amazonS3;
+
+    @Value("${amazon.s3.bucket}")
+    private static final String BUCKET="[Nome do Bucket que criamos]";
 
     @Transactional(readOnly = true)
     public Optional<UserAccount> findByNickNameAndPassword(String nickname, String password) {
@@ -137,17 +140,12 @@ public class UserAccountService {
     private String saveFile(MultipartFile file){
         String ramdom = String.valueOf(UUID.randomUUID());
 
-        Path directoryPath = Paths.get(this.rootDirectory, this.fileDirectory);
-        Path filePath = directoryPath.resolve(ramdom + "." + extractExtencion(Objects.requireNonNull(file.getOriginalFilename())));
-
         try {
-            Files.createDirectories(directoryPath);
-            file.transferTo(filePath.toFile());
-
-            URI uri = filePath.toUri().resolve("http://localhost:8080/api/user/avatar/"+ramdom + "." + extractExtencion(file.getOriginalFilename()));
-
-            return uri.toString();
-        } catch (IOException e) {
+            amazonS3.putObject(new PutObjectRequest(BUCKET,
+                    ramdom + "." + extractExtencion(file.getOriginalFilename()), file.getInputStream(),null)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            return "http://s3.amazonaws.com/"+BUCKET+"/" + ramdom + "." + extractExtencion(file.getOriginalFilename());
+        } catch (IllegalStateException | IOException e) {
             throw new RuntimeException("Problemas na tentativa de salvar o arquivo");
         }
     }
@@ -156,18 +154,4 @@ public class UserAccountService {
         int i = fileName.lastIndexOf(".");
         return fileName.substring(i + 1);
     }
-
-//    public byte[] getAvatar(String name) throws IOException {
-//        File file = new File(Objects.requireNonNull(UserAccountService.class.getClassLoader().getResource("arquivos/" + name)).getFile());
-//
-//        return readFile(file);
-//    }
-//
-//    private byte[] readFile(File path) throws IOException {
-//        try {
-//            return Files.readAllBytes(Paths.get(path.getPath()));
-//        }catch (IOException e){
-//            throw new RuntimeException("Erro ao ler arquivo");
-//        }
-//    }
 }

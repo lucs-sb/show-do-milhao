@@ -1,9 +1,7 @@
 package api.showdomilhao.config.security;
 
 import api.showdomilhao.entity.Login;
-import api.showdomilhao.entity.UserAccount;
 import api.showdomilhao.exceptionHandler.exceptions.MessageBadRequestException;
-import api.showdomilhao.exceptionHandler.exceptions.MessageNotFoundException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -16,7 +14,7 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
-    @Value("${api.security.token.secret}")
+    @Value("${api.show_do_milhao.token.secret}")
     private String secret;
 
     public String generateToken(Login user){
