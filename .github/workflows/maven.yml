@@ -14,9 +14,8 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn --batch-mode --update-snapshots verify
     - name: Copiar JAR para a Instância EC2
       uses: appleboy/scp-action@master
       with:
