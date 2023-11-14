@@ -17,13 +17,13 @@ jobs:
     - name: Build with Maven
       run: mvn -f backend/pom.xml clean install
     - name: SSH para a Instância EC2 e Iniciar Aplicação
-      uses: appleboy/scp-action@master
+      uses: appleboy/scp-action@v0.1.4
       with:
-        SSH_PRIVATE_KEY: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-        SOURCE: "/target/showdomilhao-0.0.1-SNAPSHOT.jar"
-        REMOTE_HOST: ${{ secrets.AWS_EC2_HOST }}
-        REMOTE_USER: ${{ secrets.AWS_EC2_USER }}
-        TARGET: "/home/ec2-user"
+        password: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+        source: "/target/showdomilhao-0.0.1-SNAPSHOT.jar"
+        host: ${{ secrets.AWS_EC2_HOST }}
+        username: ${{ secrets.AWS_EC2_USER }}
+        target: "/home/ec2-user"
         envs: | 
           MYSQL_HOST=${{secrets.MYSQL_HOST}}
           MYSQL_USERNAME=${{secrets.MYSQL_USERNAME}}
