@@ -18,11 +18,13 @@ jobs:
       run: mvn -f backend/pom.xml clean install
     - name: Copiar JAR para a Instância EC2
       uses: appleboy/scp-action@master
+      env:
+        HOST: ${{ secrets.AWS_EC2_HOST }}
+        USERNAME: ${{ secrets.AWS_EC2_USER }}
+        PORT: "22"
+        KEY: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
       with:
-        host: ${{ secrets.AWS_EC2_HOST }}
-        username: ${{ secrets.AWS_EC2_USER }}
-        key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-        source: "./target/showdomilhao-0.0.1-SNAPSHOT.jar"
+        source: "/target/showdomilhao-0.0.1-SNAPSHOT.jar"
         target: "/home/ec2-user"
     - name: SSH para a Instância EC2 e Iniciar Aplicação
       uses: appleboy/ssh-action@master
