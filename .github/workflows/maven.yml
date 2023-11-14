@@ -16,8 +16,6 @@ jobs:
         distribution: 'temurin'
     - name: Build with Maven
       run: mvn -f backend/pom.xml clean install
-    - name: Exibir Conteúdo do Arquivo JAR
-      run: ls
     - name: copiar .jar para a Instância EC2
       uses: appleboy/scp-action@v0.1.4
       with:
