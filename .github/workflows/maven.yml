@@ -24,7 +24,7 @@ jobs:
         REMOTE_USER: ${{ secrets.AWS_EC2_USER }}
         TARGET: "backend/target/showdomilhao-0.0.1-SNAPSHOT.jar"
     - name: SSH para a Instância EC2 e Iniciar Aplicação
-      uses: easingthemes/ssh-action@master
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
