@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout do Código
@@ -16,24 +16,26 @@ jobs:
         distribution: 'temurin'
     - name: Build with Maven
       run: mvn -f backend/pom.xml clean install
-    - name: SSH para a Instância EC2 e Iniciar Aplicação
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        password: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-        source: "/target/showdomilhao-0.0.1-SNAPSHOT.jar"
-        host: ${{ secrets.AWS_EC2_HOST }}
-        username: ${{ secrets.AWS_EC2_USER }}
-        target: "/home/ec2-user"
-        envs: | 
-          MYSQL_HOST=${{secrets.MYSQL_HOST}}
-          MYSQL_USERNAME=${{secrets.MYSQL_USERNAME}}
-          MYSQL_PASSWORD=${{secrets.MYSQL_PASSWORD}}
-          JWT_SECRET=${{secrets.JWT_SECRET}}
-          S3_BUCKET=${{secrets.S3_BUCKET}}
-          S3_ACESS_TOKEN=${{secrets.S3_ACESS_TOKEN}}
-          S3_SECRET_KEY=${{secrets.S3_SECRET_KEY}}
-        script: |
-          # Parar a aplicação se já estiver em execução
-          pkill -f showdomilhao-0.0.1-SNAPSHOT.jar || true
-          # Iniciar a aplicação
-          nohup java -jar /home/ec2-user/showdomilhao-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
+  deploy:
+    needs: build
+    runs-on: sel-hosted
+    steps:
+      - name: SSH para a Instância EC2 e Iniciar Aplicação
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          password: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+          source: "/target/showdomilhao-0.0.1-SNAPSHOT.jar"
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USER }}
+          target: "/home/ec2-user"
+      - name: SSH para a Instância EC2 e Iniciar Aplicação
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            # Parar a aplicação se já estiver em execução
+            pkill -f showdomilhao-0.0.1-SNAPSHOT.jar || true
+            # Iniciar a aplicação
+            nohup java -jar /home/ec2-user/showdomilhao-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
