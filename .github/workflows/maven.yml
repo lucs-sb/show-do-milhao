@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout do Código
@@ -16,26 +16,19 @@ jobs:
         distribution: 'temurin'
     - name: Build with Maven
       run: mvn -f backend/pom.xml clean install
-    - name: Debug SSH
-      run: |
-        echo "${{ secrets.AWS_EC2_PRIVATE_KEY }}" > private_key.pem
-        chmod 600 private_key.pem
-        cat private_key.pem
-        ssh -i private_key.pem ${{ secrets.AWS_EC2_USER }}@${{ secrets.AWS_EC2_HOST }}
     - name: copiar .jar para a Instância EC2
-      uses: appleboy/scp-action@v0.1.4
+      uses: easingthemes/ssh-deploy@main
       with:
-        password: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-        source: "backend/target/showdomilhao-0.0.1-SNAPSHOT.jar"
-        host: ${{ secrets.AWS_EC2_HOST }}
-        username: ${{ secrets.AWS_EC2_USER }}
-        target: "/home/ec2-user"
+        SSH_PRIVATE_KEY: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+        REMOTE_HOST: ${{ secrets.AWS_EC2_HOST }}
+        REMOTE_USER: ${{ secrets.AWS_EC2_USER }}
+        TARGET: "backend/target/showdomilhao-0.0.1-SNAPSHOT.jar"
     - name: SSH para a Instância EC2 e Iniciar Aplicação
-      uses: appleboy/ssh-action@v1.0.0
+      uses: easingthemes/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.PASSWORD }}
         envs: | 
           MYSQL_HOST=${{secrets.MYSQL_HOST}}
           MYSQL_USERNAME=${{secrets.MYSQL_USERNAME}}
