@@ -33,9 +33,9 @@ jobs:
     - name: SSH para a Instância EC2 e Iniciar Aplicação
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.PASSWORD }}
+        host: ${{ secrets.AWS_EC2_HOST }}
+        username: ${{ secrets.AWS_EC2_USER }}
+        key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
         envs: | 
           MYSQL_HOST=${{secrets.MYSQL_HOST}}
           MYSQL_USERNAME=${{secrets.MYSQL_USERNAME}}
