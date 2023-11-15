@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout do Código
@@ -26,20 +26,23 @@ jobs:
 
     - name: Build with Maven
       run: mvn -f backend/pom.xml clean install
-    - name: copy .jar to EC2 Instance
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.AWS_EC2_HOST }}
-        username: ${{ secrets.AWS_EC2_USER }}
-        key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-        source: "backend/target/showdomilhao-0.0.1-SNAPSHOT.jar"
-        target: "/home/ec2-user"
-    - name: SSH to the EC2 Instance and Launch Application
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.AWS_EC2_HOST }}
-        username: ${{ secrets.AWS_EC2_USER }}
-        key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-        script: |
-          pkill -f showdomilhao-0.0.1-SNAPSHOT.jar || true
-          sudo systemctl start showdomilhao.service
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: copy .jar to EC2 Instance
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ${{ secrets.AWS_EC2_USER }}
+          key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+          source: "backend/target/showdomilhao-0.0.1-SNAPSHOT.jar"
+          target: "/home/ec2-user"
+      - name: SSH to the EC2 Instance
+        run: ssh -i ${{ secrets.AWS_EC2_PRIVATE_KEY }} ${{ secrets.AWS_EC2_USER }}@${{ secrets.AWS_EC2_HOST }}
+      - name: Parar execução
+        run: ls
+      - name: Sair
+        run: exit
+      - name: teste
+        run: ls
