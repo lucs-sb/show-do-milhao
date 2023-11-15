@@ -42,4 +42,4 @@ jobs:
           # Parar a aplicação se já estiver em execução
           pkill -f showdomilhao-0.0.1-SNAPSHOT.jar || true
           # Iniciar a aplicação
-          nohup java -jar /home/ec2-user/backend/target/showdomilhao-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
+          java -jar backend/target/showdomilhao-0.0.1-SNAPSHOT.jar
