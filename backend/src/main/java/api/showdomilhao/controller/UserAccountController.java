@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,6 +47,9 @@ public class UserAccountController {
     @Autowired
     private TokenService tokenService;
 
+    @Value("${spring.datasource.url}")
+    private String host;
+
     @Operation(summary = "Autenticar usuário pelo nickname e senha")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário autenticado", content =
@@ -56,6 +60,7 @@ public class UserAccountController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) throws Exception{
         try {
+            System.out.println("host: " + host );
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.nickname(), data.password());
             var auth = authenticationManager.authenticate(usernamePassword);
 
