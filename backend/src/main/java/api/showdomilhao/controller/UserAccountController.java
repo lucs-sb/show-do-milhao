@@ -47,7 +47,7 @@ public class UserAccountController {
     @Autowired
     private TokenService tokenService;
 
-    @Value("${spring.datasource.url}")
+    @Value("${api.show_do_milhao.test}")
     private String host;
 
     @Operation(summary = "Autenticar usuário pelo nickname e senha")

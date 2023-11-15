@@ -43,7 +43,7 @@ public class UserAccountService {
     private AmazonS3 amazonS3;
 
     @Value("${amazon.s3.bucket}")
-    private static final String BUCKET="[Nome do Bucket que criamos]";
+    private String BUCKET;
 
     @Transactional(readOnly = true)
     public Optional<UserAccount> findByNickNameAndPassword(String nickname, String password) {
