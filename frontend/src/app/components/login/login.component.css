@@ -7,7 +7,7 @@ form{
 }
 
 h3{
-    color: var(	--bs-primary);
+    color: var(--bs-primary);
     font-size: large;
 }
 
@@ -20,11 +20,11 @@ h3{
 }
 
 input{
-    border: 2px solid var(	--bs-primary);
+    border: 2px solid var(--bs-primary);
     border-radius: 6px;
     width: 35%;
     padding-bottom: 6px;
-    background-color: var(--bs-light);
+    background-color: var();
 }
 
 input::placeholder{
@@ -35,9 +35,9 @@ input::placeholder{
 .btn{
     margin: 0 1%;
     padding: 5px;
-    background-color: var(--bs-light);
-    color: black;
-    border: 2px solid var(	--bs-primary);
+    background-color: var();
+    color: var(	--bs-primary);
+    border: 2px solid var(--bs-primary);
     border-radius: 10px;
 }
 
@@ -46,12 +46,12 @@ input::placeholder{
 }
 
 #btn-create{
-    background-color: var(--bs-light);
-    color: black;
+    background-color: var();
+    color: var(--bs-primary);
 }
 
 p {
-    color: var(	--bs-primary);
+    color: var(--bs-primary);
     overflow: hidden;
     text-align: center;
     margin-top: 10px;
@@ -59,7 +59,7 @@ p {
 
 p:before,
 p:after {
-    background-color:var(	--bs-primary);
+    background-color:var(--bs-primary);
     content: "";
     display: inline-block;
     height: 1px;
