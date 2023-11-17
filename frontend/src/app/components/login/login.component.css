@@ -1,5 +1,5 @@
 main {
-    padding-top: 10%;
+    padding-top: 8%;
 }
 
 form{
@@ -7,7 +7,7 @@ form{
 }
 
 h3{
-    color: var(--bs-danger);
+    color: var(	--bs-primary);
     font-size: large;
 }
 
@@ -20,7 +20,7 @@ h3{
 }
 
 input{
-    border: 2px solid var(--bs-danger);
+    border: 2px solid var(	--bs-primary);
     border-radius: 6px;
     width: 35%;
     padding-bottom: 6px;
@@ -37,7 +37,7 @@ input::placeholder{
     padding: 5px;
     background-color: var(--bs-light);
     color: black;
-    border: 2px solid var(--bs-danger);
+    border: 2px solid var(	--bs-primary);
     border-radius: 10px;
 }
 
@@ -51,7 +51,7 @@ input::placeholder{
 }
 
 p {
-    color: var(--bs-danger);
+    color: var(	--bs-primary);
     overflow: hidden;
     text-align: center;
     margin-top: 10px;
@@ -59,7 +59,7 @@ p {
 
 p:before,
 p:after {
-    background-color:var(--bs-danger);
+    background-color:var(	--bs-primary);
     content: "";
     display: inline-block;
     height: 1px;
