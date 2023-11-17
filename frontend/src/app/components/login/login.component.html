@@ -1,43 +1,40 @@
 <notifier-container></notifier-container>
 
-<div class="container">
-    <div id="div-img">
-      <img id="img" src="https://show-do-milhao.vercel.app/imagens/logo.png" alt="" class="images">
-    </div>
-    <div id="div-form">
-      <form [formGroup]="formUser" id="form">
-                    
-        <h3 id="h3-form" class="fw-bold mb-1 text-uppercase" style="color: darkolivegreen;">Faça login para continuar</h3>
-        
-        <div class="form-outline form-white mb-2">
-          <input class="input" id="email" type="text" formControlName="email" placeholder="E-mail" required>
-          <div *ngIf="formUser.get('email')?.errors?.['required'] && formUser.get('email')?.touched" style="color: red;">
-            E-mail obrigatório
-          </div>
+<main>
+  <div class="div-form">
+    <form [formGroup]="formUser" id="form">
+                  
+      <h3 id="h3-form" class="fw-bold mb-1 text-uppercase">Faça login para continuar</h3>
+      
+      <div class="form-outline form-white mb-2">
+        <input class="input" id="email" type="text" formControlName="email" placeholder="E-mail" required>
+        <div *ngIf="formUser.get('email')?.errors?.['required'] && formUser.get('email')?.touched" style="color: red;">
+          E-mail obrigatório
         </div>
-        
-        <div class="form-outline form-white mb-2">  
-          <input class="input" id="password" type="password" formControlName="password" placeholder="Senha" required>
-          <div *ngIf="formUser.get('password')?.errors?.['required'] && formUser.get('password')?.touched" style="color: red;">
-            Senha obrigatória
-          </div>
+      </div>
+      
+      <div class="form-outline form-white mb-2">  
+        <input class="input" id="password" type="password" formControlName="password" placeholder="Senha" required>
+        <div *ngIf="formUser.get('password')?.errors?.['required'] && formUser.get('password')?.touched" style="color: red;">
+          Senha obrigatória
         </div>
-  
-        <div class="div-btn">
-          <button type="submit"  (click)="login()" class="btn btn-lg px-5 mt-3">
-            Fazer login
-          </button>
-        </div>
-  
-        <p><span>ou</span></p>
-  
-        <h3 id="h3-btn" class="fw-bold mb-1 text-uppercase" style="color: darkolivegreen;">Crie sua conta</h3>
-        <div class="div-btn">
-          <button id="btn-create" type="submit" (click)="createAccount()" class="btn btn-lg px-5 mt-3">
-            Criar conta
-          </button>
-        </div>
-  
-      </form>
-    </div>
+      </div>
+
+      <div class="div-btn">
+        <button type="submit"  (click)="login()" class="btn btn-lg px-5 mt-3">
+          Fazer login
+        </button>
+      </div>
+
+      <p><span>ou</span></p>
+
+      <h3 id="h3-btn" class="fw-bold mb-1 text-uppercase">Crie sua conta</h3>
+      <div class="div-btn">
+        <button id="btn-create" type="submit" (click)="createAccount()" class="btn btn-lg px-5 mt-3">
+          Criar conta
+        </button>
+      </div>
+
+    </form>
   </div>
+</main>

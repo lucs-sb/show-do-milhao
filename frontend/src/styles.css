@@ -1,19 +1,7 @@
 body {
     overflow: hidden;
     height: 100vh;
-    width: 100vw;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url("C:\Users\soare\Downloads\background.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url("/assets/images/silvio_tela_inicial.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-}
-
-.menu {
-    position: absolute;
-    display: flex;
-    bottom: 0px;
-    width: 100%;
-    height: 150px;
-    background-size: initial;
-    background-repeat: repeat-x;
-    background-image: url("C:\Users\soare\Downloads\dinheiro3.png");
 }
