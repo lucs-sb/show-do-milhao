@@ -1,56 +1,43 @@
-.container{
-    display: grid;
-    height: 100vh;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-    grid-template-areas: "img form";
-}
-#div-img{
-    grid-area: img;
-}
-#div-form{
-    grid-area: form;
+main {
+    padding-top: 10%;
 }
 
-#img{
-    width: 85%;
-    padding-top: 15%;
-}
-
-#form{
-    padding-top: 18%;
+form{
     text-align: center;
 }
 
-#h3-form{
+h3{
+    color: var(--bs-danger);
     font-size: large;
+}
+
+#h3-form{
     height: 25px;
 }
 
 #h3-btn{
-    font-size: large;
     margin-top: 10px;
 }
 
-.input{
-    border: 2px solid darkolivegreen;
+input{
+    border: 2px solid var(--bs-danger);
     border-radius: 6px;
-    width: 40%;
+    width: 35%;
     padding-bottom: 6px;
-    background-color: blanchedalmond;
+    background-color: var(--bs-light);
 }
 
-.input::placeholder{
-    color: darkolivegreen;
+input::placeholder{
+    color: black;
     padding-left: 8px;
 }
 
 .btn{
     margin: 0 1%;
     padding: 5px;
-    background-color: blanchedalmond;
-    color: darkolivegreen;
-    border: 2px solid darkolivegreen;
+    background-color: var(--bs-light);
+    color: black;
+    border: 2px solid var(--bs-danger);
     border-radius: 10px;
 }
 
@@ -59,12 +46,12 @@
 }
 
 #btn-create{
-    background-color: blanchedalmond;
-    color: darkolivegreen;
+    background-color: var(--bs-light);
+    color: black;
 }
 
 p {
-    color: darkolivegreen;
+    color: var(--bs-danger);
     overflow: hidden;
     text-align: center;
     margin-top: 10px;
@@ -72,7 +59,7 @@ p {
 
 p:before,
 p:after {
-    background-color:darkolivegreen;
+    background-color:var(--bs-danger);
     content: "";
     display: inline-block;
     height: 1px;
