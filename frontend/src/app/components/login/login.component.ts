@@ -25,8 +25,7 @@ export class LoginComponent implements OnInit {
    * @param {NotifierService} notifier Notifier service
    */
      constructor(private loginService: UserService, 
-      private formBuilder: FormBuilder,
-      private storage: StorageService, notifier: NotifierService,
+      private formBuilder: FormBuilder, notifier: NotifierService,
       private router: Router) { this.notifier = notifier; }
 
   ngOnInit(): void {
@@ -37,11 +36,7 @@ export class LoginComponent implements OnInit {
       if(!this.formUser.value.email || !this.formUser.value.password)
         this.notifier.notify('error','Preencha todos os campos');
 
-        this.loginService.login(this.formUser.value.email, this.formUser.value.password).subscribe((user) => {
-        this.router.navigate(['/home']);
-        }, (error) => {
-          this.notifier.notify('error', 'Informações inválidas');
-        });
+      this.loginService.login(this.formUser.value.email, this.formUser.value.password);
     }
     catch (ex: any) {
       this.notifier.notify('error', ex);

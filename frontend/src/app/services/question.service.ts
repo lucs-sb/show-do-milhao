@@ -14,14 +14,14 @@ export class QuestionService {
 
   getQuestionById(id: any) {
     const httpOptions = {
-      headers: { authorization: 'Basic ' + localStorage.getItem("authorization") },
+      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
     return this.http.get<Question>(this.API_URL+`/${id}`, httpOptions); 
   }
 
   reportQuestion(id: any, isReport: any) {
     const httpOptions = {
-      headers: { authorization: 'Basic ' + localStorage.getItem("authorization") },
+      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
     return this.http.put<any>(this.API_URL+`/${id}?isReport=${isReport}`, httpOptions); 
   }

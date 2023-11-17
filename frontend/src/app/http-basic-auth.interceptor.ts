@@ -18,7 +18,7 @@ export class HttpBasicAuthInterceptor implements HttpInterceptor {
     const credentials = this.storage.get('authorization');
 
     if (credentials) {
-      return next.handle(request.clone({ setHeaders: { Authorization: 'Basic ' + credentials } }))
+      return next.handle(request.clone({ setHeaders: { Authorization: 'Bearer ' + credentials } }))
         .pipe(
           catchError((response: HttpErrorResponse) => {
             if (response.status === 401) {

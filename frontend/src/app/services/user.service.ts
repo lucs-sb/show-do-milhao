@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { StorageService } from './storage.service';
 import { User } from '../entities/user';
+import { Login } from '../entities/login';
+import { Router } from '@angular/router';
+import { NotifierService } from 'angular-notifier';
 
 @Injectable({
   providedIn: 'root'
@@ -10,26 +13,31 @@ import { User } from '../entities/user';
 export class UserService {
   private API_URL = 'http://localhost:8080/api/user';
 
-  constructor(private http: HttpClient, private localStorage: StorageService) { }
+  constructor(private http: HttpClient, 
+    private storage: StorageService, 
+    private notifier: NotifierService,
+    private router: Router) { }
 
-  login(username: any, password: any): Observable<any>{
+  login(username: any, password: any) {
 
-    const httpOptions = {
-      headers: { authorization: 'Basic ' + btoa(username + ':' + password) }
-    };
+    const body = {
+      nickname: username,
+      password: password
+    }
 
-    return this.http.get<User>(this.API_URL+`/login?nickname=${username}&password=${password}`, httpOptions).pipe(
-      tap((response: User) => {
-        this.localStorage.set('authorization', btoa(username + ':' + password));
-        this.localStorage.set('user_id', response.userAccountId.toString());
-        return response
-      })
-    );
+    return this.http.post<Login>(this.API_URL+`/login`, body).subscribe( 
+      res => {
+        this.storage.set('authorization', res.token);
+        this.storage.set('user_id', res.user_id);
+        this.router.navigate(['/home']);
+      }, () => {
+        this.notifier.notify('error', 'Informações inválidas');
+      });
   }
 
   getUserById(id: any) {
     const httpOptions = {
-      headers: { authorization: 'Basic ' + localStorage.getItem("authorization") },
+      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
     return this.http.get<User>(this.API_URL+`/${id}`, httpOptions); 
   }
@@ -40,21 +48,21 @@ export class UserService {
 
   updateUser(user: any, id: any) {
     const httpOptions = {
-      headers: { authorization: 'Basic ' + localStorage.getItem("authorization") },
+      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
     return this.http.put<any>(this.API_URL+`/${id}`, user, httpOptions); 
   }
 
   deleteUser(id: any) {
     const httpOptions = {
-      headers: { authorization: 'Basic ' + localStorage.getItem("authorization") },
+      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
     return this.http.delete<any>(this.API_URL+`/${id}`, httpOptions); 
   }
 
   getHallDaFama() {
     const httpOptions = {
-      headers: { authorization: 'Basic ' + localStorage.getItem("authorization") },
+      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
     return this.http.get<User[]>(this.API_URL+'/hall-da-fama', httpOptions); 
   }

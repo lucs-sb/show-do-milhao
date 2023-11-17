@@ -13,14 +13,14 @@ export class MatchService {
 
   getMatchById(id: any) {
     const httpOptions = {
-      headers: { authorization: 'Basic ' + localStorage.getItem("authorization") },
+      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
     return this.http.get<Match>(this.API_URL+`/${id}`, httpOptions); 
   }
 
   startNewMatch() {
     const httpOptions = {
-      headers: { authorization: 'Basic ' + localStorage.getItem("authorization") },
+      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
     var body = {
       'userAccountId': this.localStorage.get('user_id')
@@ -30,7 +30,7 @@ export class MatchService {
 
   updateMatch(match: any) {
     const httpOptions = {
-      headers: { authorization: 'Basic ' + localStorage.getItem("authorization") },
+      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
     return this.http.put<any>(this.API_URL, match, httpOptions); 
   }
