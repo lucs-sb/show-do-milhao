@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "show-do-milhao:build:production"
+              "buildTarget": "show-do-milhao:build:production"
             },
             "development": {
-              "browserTarget": "show-do-milhao:build:development"
+              "buildTarget": "show-do-milhao:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "show-do-milhao:build"
+            "buildTarget": "show-do-milhao:build"
           }
         },
         "test": {
