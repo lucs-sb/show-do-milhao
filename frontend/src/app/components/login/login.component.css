@@ -7,7 +7,7 @@ form{
 }
 
 h3{
-    color: var(--bs-primary);
+    color: var(--bs-light);
     font-size: large;
 }
 
@@ -20,7 +20,7 @@ h3{
 }
 
 input{
-    border: 2px solid var(--bs-primary);
+    border: 2px solid var(--bs-light);
     border-radius: 6px;
     width: 35%;
     padding-bottom: 6px;
@@ -36,8 +36,8 @@ input::placeholder{
     margin: 0 1%;
     padding: 5px;
     background-color: var();
-    color: var(	--bs-primary);
-    border: 2px solid var(--bs-primary);
+    color: var(	--bs-light);
+    border: 2px solid var(--bs-light);
     border-radius: 10px;
 }
 
@@ -47,11 +47,11 @@ input::placeholder{
 
 #btn-create{
     background-color: var();
-    color: var(--bs-primary);
+    color: var(--bs-light);
 }
 
 p {
-    color: var(--bs-primary);
+    color: var(--bs-light);
     overflow: hidden;
     text-align: center;
     margin-top: 10px;
@@ -59,7 +59,7 @@ p {
 
 p:before,
 p:after {
-    background-color:var(--bs-primary);
+    background-color:var(--bs-light);
     content: "";
     display: inline-block;
     height: 1px;

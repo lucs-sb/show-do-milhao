@@ -6,7 +6,6 @@ import { Match } from 'src/app/entities/match';
 import { Question } from 'src/app/entities/question';
 import { MatchService } from 'src/app/services/match.service';
 import { QuestionService } from 'src/app/services/question.service';
-import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-play',

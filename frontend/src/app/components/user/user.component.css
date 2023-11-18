@@ -4,10 +4,20 @@
     padding-top: 100px;
 }
 
+@media(max-width: 1000px){
+    .row{
+        width: 80%;
+    }
+}
+
+p {
+    color: black;
+}
+
 .card{
-    box-shadow: 1px 1px 5px;
+    border: 2px solid black;
     padding: 15px;
-    background-color: blanchedalmond;
+    background-color: var(--bs-light);
 }
 
 .card-top{
@@ -15,13 +25,12 @@
 }
 
 .card-group{
+    gap: 10px;
     margin-bottom: 50px;
 }
 
 .card-group > label{
-    width: 100%;
     color: black;
-    display: block;
 }
 
 .form-outline > label{
@@ -32,27 +41,32 @@
 
 #img{
     border-radius: 50px;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
 }
 
 .modal-header{
-    border-bottom-color: darkolivegreen;
+    border-bottom-color: black;
 }
 
 .modal-footer{
-    border-top-color: darkolivegreen;
+    justify-content: center;
+    border-top-color: black;
+}
+
+.form-outline > label {
+    color: black;
 }
 
 .input{
-    border: 2px solid darkolivegreen;
+    border: 2px solid black;
     border-radius: 6px;
     width: 40%;
     padding-bottom: 6px;
-    background-color: blanchedalmond;
+    background-color: var(--bs-light);
 }
 
 .input::placeholder{
-    color: darkolivegreen;
+    color: var(--bg-dark);
     padding-left: 8px;
 }

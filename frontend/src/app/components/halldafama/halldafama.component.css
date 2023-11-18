@@ -5,6 +5,24 @@
     text-align: center;
 }
 
+@media(max-width: 500px){
+    .row{
+        width: 100%;
+    }
+}
+
+
+th {
+    background-color: var(--bg-dark);
+    color: var(--bs-light);
+}
+
+td {
+    background-color: var(--bg-dark);
+    color: var(--bs-light);
+}
+
+
 h3{
-    color: darkolivegreen;
+    color: var(--bs-light);
 }
