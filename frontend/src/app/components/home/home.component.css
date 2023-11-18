@@ -1,23 +1,14 @@
-.img-container {
-    padding-top: 3%;
+
+div {
+    padding-top: 30%;
     text-align: center;
 }
 
-#img{
-    width: 35%;
-}
-
-.btn-container {
-    padding-top: 3%;
-    text-align: center;
-}
-
-.btn {
+div > button {
     width: 100px;
-    margin: 0 1%;
     padding: 7px;
-    background-color: blanchedalmond;
-    color: darkolivegreen;
-    border: 2px solid darkolivegreen;
+    background-color: var(--bs-light);
+    color: var(	--bs-dark);
+    border: 2px solid var(--bs-dark);
     border-radius: 10px;
 }
