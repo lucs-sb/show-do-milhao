@@ -29,7 +29,7 @@ export class PlayComponent implements OnInit {
     
   info: string[] = ['', '', ''];
   lastQuestionAnswered: number = 0;
-  deletedAnswers?: Boolean;
+  isDeleted?: Boolean;
 
   /**
    * Constructor
@@ -43,6 +43,7 @@ export class PlayComponent implements OnInit {
     private router: Router) { this.notifier = notifier; }
 
   ngOnInit(): void {
+    console.log(this.answers);
     this.getMatchById();
   }
 
@@ -50,11 +51,11 @@ export class PlayComponent implements OnInit {
     try {
       this.matchService.getMatchById(localStorage.getItem("match_id")).subscribe((res) => {
         this.match = res;
-        this.deletedAnswers = this.match.deletedAnswers;
+        this.isDeleted = this.match.deletedAnswers;
         this.lastQuestionAnswered = this.match.lastQuestionAnswered;
         this.info = this.prizeTable[this.match.lastQuestionAnswered];
 
-        this.questionService.getQuestionById(this.match.questions.find(x => x.position == this.match?.lastQuestionAnswered)?.questionId).subscribe(
+        this.questionService.getQuestionByIdAndMatchId(this.match.questions.find(x => x.position == this.match?.lastQuestionAnswered)?.questionId, this.match.matchId).subscribe(
           (res) => {
             this.question = res;
             this.answers = res.answers;
@@ -105,14 +106,14 @@ export class PlayComponent implements OnInit {
         award: award,
         ended: ended,
         lastQuestionAnswered: lastQuestionAnswered,
-        deletedAnswers: this.deletedAnswers,
+        deletedAnswers: this.isDeleted,
         reasonForClosing: reasonForClosing
       };
 
       this.matchService.updateMatch(body).subscribe((res) => {
         if(body.ended == false){
           this.info = this.prizeTable[this.lastQuestionAnswered];
-          this.questionService.getQuestionById(this.match?.questions.find(x => x.position == this.lastQuestionAnswered)?.questionId).subscribe(
+          this.questionService.getQuestionByIdAndMatchId(this.match?.questions.find(x => x.position == this.lastQuestionAnswered)?.questionId, this.match?.matchId).subscribe(
             (res) => {
               this.question = res;
               this.answers = res.answers;
@@ -146,7 +147,7 @@ export class PlayComponent implements OnInit {
         award: award,
         ended: true,
         lastQuestionAnswered: this.lastQuestionAnswered++,
-        deletedAnswers: this.deletedAnswers,
+        deletedAnswers: this.isDeleted,
         reasonForClosing: 'Parou'
       };
 
@@ -162,22 +163,33 @@ export class PlayComponent implements OnInit {
     }
   }
 
-  //TODO bug ao eliminar pergunta ao atualizar a pagina volta as 4 de novo
   deleteAnswers(): void{
-    var aux = this.answers?.filter(x => x.correct == true);
+    var allAnswers = this.answers;
+    var correctAnswer = this.answers?.filter(x => x.correct == true);
     this.answers = this.answers?.filter(x => x.correct == false).slice(1, 2);
-    aux?.forEach(x => {
+    correctAnswer?.forEach(x => {
       this.answers = this.answers?.concat(x);
     });
 
-    this.deletedAnswers = true;
+    var deletedAnswers: number[] = [];
+
+    allAnswers?.forEach(current => {
+      console.log(this.answers?.indexOf(current))
+      if(this.answers?.indexOf(current) == -1){
+        deletedAnswers.push(current.answerId);
+      }
+    });
+
+    this.isDeleted = true;
 
     const body = {
       matchId: this.match?.matchId,
       userAccountId: this.match?.userAccountId,
+      questionId: this.question?.questionId,
       ended: false,
       lastQuestionAnswered: this.lastQuestionAnswered,
-      deletedAnswers: this.deletedAnswers
+      deletedAnswers: this.isDeleted,
+      answers: deletedAnswers
     };
 
     this.matchService.updateMatch(body).subscribe(); 

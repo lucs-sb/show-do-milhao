@@ -5,10 +5,14 @@ import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface AnswerRepository extends CrudRepository<Answer, Long> {
-    @Query("SELECT * FROM tb_answer WHERE question_id = :questionId ORDER BY RAND()")
-    List<Answer> findAnswersByQuestionId(Long questionId);
+    @Query("SELECT a.* FROM tb_answer AS a " +
+            "INNER JOIN tb_question_answer AS qa ON qa.answer_id = a.answer_id " +
+            "INNER JOIN tb_match_answer AS ma ON ma.question_id = qa.question_id AND ma.answer_id = qa.answer_id " +
+            "WHERE qa.question_id = :questionId AND ma.match_id = :matchId AND ma.deleted = 0 " +
+            "ORDER BY RAND()")
+    Set<Answer> findAnswersByMatchIdAndQuestionId(Long matchId, Long questionId);
 }

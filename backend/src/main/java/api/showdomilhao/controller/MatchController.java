@@ -1,5 +1,6 @@
 package api.showdomilhao.controller;
 
+import api.showdomilhao.dto.MatchDTO;
 import api.showdomilhao.entity.Match;
 import api.showdomilhao.exceptionHandler.MessageExceptionHandler;
 import api.showdomilhao.service.MatchService;
@@ -96,7 +97,7 @@ public class MatchController {
     })
     @PutMapping
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity update(@RequestBody Match match) throws Exception{
+    public ResponseEntity update(@RequestBody MatchDTO match) throws Exception{
         try {
             service.update(match);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

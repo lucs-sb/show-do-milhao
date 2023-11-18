@@ -23,6 +23,8 @@ public class Match {
     private String reasonForClosing;
     @MappedCollection(idColumn = "match_id")
     private Set<MatchQuestion> questions = new HashSet<>();
+    @MappedCollection(idColumn = "match_id")
+    private Set<MatchAnswer> answers = new HashSet<>();
 
     public Match(){}
 }

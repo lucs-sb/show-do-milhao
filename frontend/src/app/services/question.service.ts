@@ -12,11 +12,11 @@ export class QuestionService {
 
   constructor(private http: HttpClient, private localStorage: StorageService) { }
 
-  getQuestionById(id: any) {
+  getQuestionByIdAndMatchId(questionId: any, matchId: any) {
     const httpOptions = {
       headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
-    return this.http.get<Question>(this.API_URL+`/${id}`, httpOptions); 
+    return this.http.get<Question>(this.API_URL+`/${questionId}/match/${matchId}`, httpOptions); 
   }
 
   reportQuestion(id: any, isReport: any) {

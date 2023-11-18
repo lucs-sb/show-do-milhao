@@ -26,15 +26,15 @@ public class QuestionController {
     @Autowired
     private QuestionService service;
 
-    @Operation(summary = "Buscar pergunta pelo ID")
+    @Operation(summary = "Buscar pergunta pelo id da pergunta e do jogo")
     @ApiResponse(responseCode = "200", description = "Buscou a pergunta", content = {
             @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Question.class)))
     })
-    @GetMapping("/{questionId}")
+    @GetMapping("/{questionId}/match/{matchId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity<Optional<QuestionDTO>> findById(@PathVariable Long questionId) throws Exception{
+    public ResponseEntity<Optional<QuestionDTO>> findQuestionByIdAndMatchId(@PathVariable Long questionId, @PathVariable Long matchId) throws Exception{
         try {
-            Optional<QuestionDTO> question = service.findQuestionById(questionId);
+            Optional<QuestionDTO> question = service.findQuestionByIdAndMatchId(matchId, questionId);
             return new ResponseEntity<>(question, HttpStatus.OK);
         }catch (Exception ex){
             throw new Exception(ex);

@@ -1,9 +1,7 @@
 package api.showdomilhao.service;
 
-import api.showdomilhao.entity.Match;
-import api.showdomilhao.entity.MatchQuestion;
-import api.showdomilhao.entity.Question;
-import api.showdomilhao.entity.UserAccount;
+import api.showdomilhao.dto.MatchDTO;
+import api.showdomilhao.entity.*;
 import api.showdomilhao.exceptionHandler.exceptions.MessageNotFoundException;
 import api.showdomilhao.repository.MatchRepository;
 import api.showdomilhao.repository.QuestionRepository;
@@ -45,10 +43,14 @@ public class MatchService {
         }));
 
         Set<MatchQuestion> matchQuestions = new HashSet<>();
+        Set<MatchAnswer> matchAnswers = new HashSet<>();
         List<Question> questions = questionRepository.findByAcceptedForMatch();
 
-        questions.forEach(x -> {
-            matchQuestions.add(new MatchQuestion(x.getQuestionId(), questions.indexOf(x)));
+        questions.forEach(question -> {
+            matchQuestions.add(new MatchQuestion(question.getQuestionId(), questions.indexOf(question)));
+            question.getAnswers().forEach(answer -> {
+                matchAnswers.add(new MatchAnswer(question.getQuestionId(), answer.getAnswerId(), false));
+            });
         });
 
         Match match = new Match();
@@ -56,6 +58,7 @@ public class MatchService {
         match.setEnded(false);
         match.setDeletedAnswers(false);
         match.setQuestions(matchQuestions);
+        match.setAnswers(matchAnswers);
 
         repository.save(match);
 
@@ -63,16 +66,25 @@ public class MatchService {
     }
 
     @Transactional
-    public void update(Match newMatch){
-        Optional<Match> match = Optional.ofNullable(repository.findById(newMatch.getMatchId()).orElseThrow(() -> {
+    public void update(MatchDTO newMatch){
+        Optional<Match> match = Optional.ofNullable(repository.findById(newMatch.matchId()).orElseThrow(() -> {
             throw new MessageNotFoundException("Partida não encontrada na base");
         }));
 
-        match.get().setAward(newMatch.getAward());
-        match.get().setEnded(newMatch.isEnded());
-        match.get().setDeletedAnswers(newMatch.isDeletedAnswers());
-        match.get().setLastQuestionAnswered(newMatch.getLastQuestionAnswered());
-        match.get().setReasonForClosing(newMatch.getReasonForClosing());
+        match.get().setAward(newMatch.award());
+        match.get().setEnded(newMatch.ended());
+        match.get().setDeletedAnswers(newMatch.deletedAnswers());
+        match.get().setLastQuestionAnswered(newMatch.lastQuestionAnswered());
+        match.get().setReasonForClosing(newMatch.reasonForClosing());
+
+        if (newMatch.answers() != null && !newMatch.answers().isEmpty()){
+            newMatch.answers().forEach(answerId -> {
+                match.get().getAnswers().forEach(matchAnswer -> {
+                    if (answerId == matchAnswer.getAnswerId())
+                        matchAnswer.setDeleted(true);
+                });
+            });
+        }
 
         repository.save(match.get());
     }

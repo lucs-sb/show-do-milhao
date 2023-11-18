@@ -1,7 +1,4 @@
 *{
-    margin: 0;
-    padding: 0;
-    border: 0;
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
@@ -9,6 +6,7 @@
 
 .container{
     display: grid;
+    flex-wrap: wrap;
     height: 100vh;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
@@ -19,26 +17,27 @@
     left: 0px;
     opacity: 0.8;
     height: 100vh;
-    width: 40vw;
-    background-color: #ecffd9;
+    background-color: var(--bs-primary);
     grid-area: form;
 }
+
 .div-info{
     grid-area: info;
 }
 
 .question{
-    width: 40vw;
-    height: 30%;
-    background-color: rgb(129, 245, 129);
-}
-
-.question p {
-    padding: 15%;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    height: 15%;
+    margin-top: 10%;
+    background-color: var(	--bs-danger);
+    border: 2px solid var(--bs-light);
+    border-radius: 10px;
+}
+
+.question p {
+    color: var(--bs-light);
 }
 
 .answers{
@@ -46,16 +45,28 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding-top: 30px;
 }
 
 .answer{
+    display: flex;
+    flex-direction: row;
+    gap: 30%;
+    color: var(--bs-light);
     width: 50%;
     height: 45px;
-    border: 2px solid darkolivegreen;
+    border: 2px solid var(--bs-light);
     border-radius: 10px;
-    margin-top: 5%;
-    background-color: rgb(129, 245, 129);
+    margin-top: 8px;
+    background-color: var(--bs-danger);
+}
+
+.div-number{
+    background-color: var(--bs-light);
+    color: var(--bs-primary);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin-top: 3px;
 }
 
 .div-btn{
@@ -63,6 +74,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: row;
+    flex-wrap: wrap;
     padding-top: 10%;
 }
 
@@ -76,21 +88,24 @@
 }
 
 .div-btn button {
+    color: var(--bs-light);
     border: 0;
     padding: 5px;
     border-radius: 10px;
     width: 80%;
-    background-color: rgb(129, 245, 129);
+    background-color: var(--bs-danger);
+}
+
+.div-info{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .infos{
     border-radius: 5px;
     background-color: transparent;
-    position: absolute;
-    bottom: 50%;
-    right: 5%;
-    width: 40%;
-    height: 40%;
+    width: 100%;
 }
 
 .infos p {
@@ -109,6 +124,7 @@
     width: 60%;
     height: 35%;
     background-color: #FFFF50;
+    color: var(--bs-danger);
 }
 
 .infos1 div{
@@ -139,59 +155,7 @@
     border-radius: 5px;
     border-bottom-right-radius: 5px;
     background-color: #FFFF50;
+    color: var(--bs-danger);
     height: 60%;
     width: 48%;
-}
-
-.div-img{
-    border-radius: 5px;
-    background-color: transparent;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 40%;
-    height: 15%;
-    bottom: 32%;
-    right: 12%;
-}
-
-#img{
-    width: 60%;
-}
-
-.options{
-    border-radius: 5px;
-    background-color: transparent;
-    position: absolute;
-    right: 5%;
-    width: 40%;
-    height: 15%;
-    bottom: 0px;
-}
-
-.option{
-    line-height: 18px;
-    font-weight: 500;
-    border-radius: 5px;
-    font-family: 'Raleway';
-    width: 60%;
-    display: flex;
-    justify-content: center;
-    margin-top: 2%;
-    height: 40%;
-}
-
-.option button{
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    border-radius: 5px;
-    border-bottom-right-radius: 5px;
-    height: 60px;
-    width: 48%;
-    background-color: red;
 }
