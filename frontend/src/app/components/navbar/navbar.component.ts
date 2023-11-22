@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NotifierService } from 'angular-notifier';
 import { StorageService } from '../../services/storage.service';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
@@ -10,19 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  private notifier: NotifierService;
+
   name: string = '';
   url_photo: string = '';
 
-  /**
-   * Constructor
-   *
-   * @param {NotifierService} notifier Notifier service
-   */
   constructor(private storage: StorageService, 
-    notifier: NotifierService, 
     private userService: UserService, 
-    private router: Router) { this.notifier = notifier; }
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getUserById();
@@ -38,7 +31,7 @@ export class NavbarComponent implements OnInit {
         this.router.navigate(['/']);
       }); 
     }catch (ex: any) {
-      this.notifier.notify('error', ex);
+      //this.notifier.notify('error', ex);
     }
   }
 

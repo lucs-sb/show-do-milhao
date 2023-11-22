@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NotifierService } from 'angular-notifier';
-import { StorageService } from '../../services/storage.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -12,21 +10,15 @@ import { UserService } from '../../services/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  private notifier: NotifierService;
-
   formUser = this.formBuilder.group({
     email: ['', [Validators.required]],
     password: ['', [Validators.required]]
   });
 
-    /**
-   * Constructor
-   *
-   * @param {NotifierService} notifier Notifier service
-   */
-     constructor(private loginService: UserService, 
-      private formBuilder: FormBuilder, notifier: NotifierService,
-      private router: Router) { this.notifier = notifier; }
+
+    constructor(private loginService: UserService, 
+    private formBuilder: FormBuilder,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -34,12 +26,12 @@ export class LoginComponent implements OnInit {
   login() {
     try {
       if(!this.formUser.value.email || !this.formUser.value.password)
-        this.notifier.notify('error','Preencha todos os campos');
+        //this.notifier.notify('error','Preencha todos os campos');
 
       this.loginService.login(this.formUser.value.email, this.formUser.value.password);
     }
     catch (ex: any) {
-      this.notifier.notify('error', ex);
+      //this.notifier.notify('error', ex);
     }
   }
 

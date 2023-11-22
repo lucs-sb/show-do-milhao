@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NotifierService } from 'angular-notifier';
 import { Answer } from 'src/app/entities/answer';
 import { Match } from 'src/app/entities/match';
 import { Question } from 'src/app/entities/question';
@@ -13,7 +12,6 @@ import { QuestionService } from 'src/app/services/question.service';
   styleUrls: ['./play.component.css']
 })
 export class PlayComponent implements OnInit {
-  private notifier: NotifierService;
   match?: Match;
   question?: Question;
   answers?: Answer[];
@@ -30,16 +28,10 @@ export class PlayComponent implements OnInit {
   lastQuestionAnswered: number = 0;
   isDeleted?: Boolean;
 
-  /**
-   * Constructor
-   *
-   * @param {NotifierService} notifier Notifier service
-   */
   constructor(
-    notifier: NotifierService, 
     private matchService: MatchService, 
     private questionService: QuestionService,
-    private router: Router) { this.notifier = notifier; }
+    private router: Router) { }
 
   ngOnInit(): void {
     console.log(this.answers);
@@ -61,10 +53,10 @@ export class PlayComponent implements OnInit {
           });
       }, () => {
         this.router.navigate(['/home']);
-        this.notifier.notify('error', 'Algo inesperado aconteceu');
+        //this.notifier.notify('error', 'Algo inesperado aconteceu');
       }); 
     }catch (ex: any) {
-      this.notifier.notify('error', ex);
+      //this.notifier.notify('error', ex);
     }
   }
 
@@ -120,14 +112,14 @@ export class PlayComponent implements OnInit {
         }
         else{
           //TODO uma mensagem dizendo que perdeu
-          this.notifier.notify('error', 'Reposta errada');
+          //this.notifier.notify('error', 'Reposta errada');
           this.router.navigate(['/home']);
         }
         }, () => {
-          this.notifier.notify('error', 'Algo inesperado aconteceu');
+          //this.notifier.notify('error', 'Algo inesperado aconteceu');
         }); 
     }catch (ex: any) {
-      this.notifier.notify('error', ex);
+      //this.notifier.notify('error', ex);
     }
   }
 
@@ -152,13 +144,13 @@ export class PlayComponent implements OnInit {
 
       this.matchService.updateMatch(body).subscribe(() => {
           //TODO uma mensagem dizendo que parou
-          this.notifier.notify('error', 'Reposta errada');
+          //this.notifier.notify('error', 'Reposta errada');
           this.router.navigate(['/home']);
         }, () => {
-          this.notifier.notify('error', 'Algo inesperado aconteceu');
+          //this.notifier.notify('error', 'Algo inesperado aconteceu');
         });  
     }catch (ex: any) {
-      this.notifier.notify('error', ex);
+      //this.notifier.notify('error', ex);
     }
   }
 
