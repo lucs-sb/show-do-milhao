@@ -49,17 +49,17 @@ public class QuestionService {
             throw new MessageNotFoundException("Usuário não encontrado");
         }));
 
-        Set<QuestionAnswer> answers = new HashSet<>();
+        Set<Answer> answers = new HashSet<>();
         newQuestion.getAnswers().forEach(x -> {
             Answer answer = new Answer();
             answer.setDescription(x.getDescription());
             answer.setCorrect(x.isCorrect());
             answerRepository.save(answer);
-            answers.add(new QuestionAnswer(answer.getAnswerId()));
+            answers.add(answer);
         });
 
         Question question = new Question();
-        question.setUserAccountId(userAccount.get().getUserAccountId());
+        question.setUser(userAccount.get());
         question.setStatement(newQuestion.getStatement());
         question.setAmountApprovals(0);
         question.setAmountComplaints(0);
@@ -68,7 +68,7 @@ public class QuestionService {
         question.setAnswers(answers);
         repository.save(question);
 
-        usersToValidateQuestion(question.getQuestionId(), question.getUserAccountId());
+        usersToValidateQuestion(question.getQuestionId(), question.getUser().getUserId());
     }
 
     @Transactional
@@ -94,7 +94,7 @@ public class QuestionService {
         question.get().setAccepted(false);
         repository.save(question.get());
 
-        usersToValidateQuestion(question.get().getQuestionId(), question.get().getUserAccountId());
+        usersToValidateQuestion(question.get().getQuestionId(), question.get().getUser().getUserId());
     }
 
     @Transactional
@@ -103,8 +103,7 @@ public class QuestionService {
                 .orElseThrow(() -> {
                     throw new MessageNotFoundException("Pergunta não encontrada na base");
                 }));
-        question.get().setDeletionDate(LocalDateTime.now());
-        repository.save(question.get());
+        repository.delete(question.get());
     }
 
     @Transactional
@@ -124,7 +123,7 @@ public class QuestionService {
             question.get().setAmountComplaints(0);
             question.get().setAccepted(false);
 
-            usersToValidateQuestion(question.get().getQuestionId(), question.get().getUserAccountId());
+            usersToValidateQuestion(question.get().getQuestionId(), question.get().getUser().getUserId());
         }
 
         repository.save(question.get());
@@ -163,9 +162,9 @@ public class QuestionService {
             throw new MessageNotFoundException("Usuário não encontrado");
         }));
 
-        user.get().getValidatedQuestions().add(new ValidatedQuestionsUser(question.get().getQuestionId()));
+        user.get().getValidatedQuestions().add(question.get());
 
-        for (ValidationQuestionUser q : user.get().getValidationQuestions()) {
+        for (Question q : user.get().getValidationQuestions()) {
             if (q.getQuestionId().equals(question.get().getQuestionId())) {
                 user.get().getValidationQuestions().remove(q);
                 break;
@@ -179,6 +178,7 @@ public class QuestionService {
     @Transactional
     private void usersToValidateQuestion(Long questionId, Long userId){
         List<UserAccount> users = userAccountRepository.findUsersByQuestionId(questionId);
+        Optional<Question> question = repository.findById(questionId);
         users.forEach(x -> {
             x.getValidationQuestions().stream().filter(q -> Objects.equals(q.getQuestionId(), questionId)).forEach(q -> {
                 x.getValidationQuestions().remove(q);
@@ -187,7 +187,7 @@ public class QuestionService {
         });
         users = userAccountRepository.findUsersToValidateQuestion(userId);
         users.forEach(x -> {
-            x.getValidationQuestions().add(new ValidationQuestionUser(questionId));
+            x.getValidationQuestions().add(question.get());
             userAccountRepository.save(x);
         });
     }
