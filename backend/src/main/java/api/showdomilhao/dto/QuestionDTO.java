@@ -26,7 +26,7 @@ public class QuestionDTO {
 
     public QuestionDTO(Question question, Set<Answer> answerList){
         this.questionId = question.getQuestionId();
-        this.userAccountId = question.getUserAccountId();
+        this.userAccountId = question.getUser().getUserId();
         this.statement = question.getStatement();
         this.accepted = question.isAccepted();
         this.amountApprovals = question.getAmountApprovals();

@@ -61,7 +61,7 @@ public class UserAccountController {
 
             var token = tokenService.generateToken((Login) auth.getPrincipal());
 
-            return ResponseEntity.ok(new LoginResponseDTO(token, ((Login) auth.getPrincipal()).getUserAccountId().toString()));
+            return ResponseEntity.ok(new LoginResponseDTO(token, ((Login) auth.getPrincipal()).getUser().getUserId().toString()));
         }catch (Exception e){
             throw new MessageBadRequestException("Usuário ou senha inválidos");
         }
