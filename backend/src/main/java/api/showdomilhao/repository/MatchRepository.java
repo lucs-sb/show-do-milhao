@@ -9,9 +9,9 @@ import java.util.*;
 
 @Repository
 public interface MatchRepository extends CrudRepository<Match, Long> {
-    @Query(value = "SELECT * FROM tb_match WHERE user_account_id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM tb_match WHERE user_id = :id", nativeQuery = true)
     List<Match> findAllByUserId(Long id);
 
-    @Query(value = "SELECT * FROM tb_match WHERE user_account_id = :id AND ended = :ended", nativeQuery = true)
+    @Query(value = "SELECT * FROM tb_match WHERE user_id = :id AND ended = :ended", nativeQuery = true)
     List<Match> findByUserIdAndEnded(Long id, boolean ended);
 }

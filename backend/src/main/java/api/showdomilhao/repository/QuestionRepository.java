@@ -15,16 +15,16 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
 
     @Query(value = "SELECT q.* FROM tb_question AS q " +
             "INNER JOIN tb_validation_question_user AS vqu ON q.question_id = vqu.question_id " +
-            "WHERE q.question_id = :questionId AND vqu.user_account_id = :userId", nativeQuery = true)
+            "WHERE q.question_id = :questionId AND vqu.user_id = :userId", nativeQuery = true)
     Optional<Question> findByIdAndUserId(Long questionId, Long userId);
 
-    @Query(value = "SELECT * FROM tb_question WHERE user_account_id = :userId " +
+    @Query(value = "SELECT * FROM tb_question WHERE user_id = :userId " +
             "AND accepted = :accepted", nativeQuery = true)
     List<Question> findQuestionsByUserIdAndAccepted(Long userId, boolean accepted);
 
     @Query(value = "SELECT q.* FROM tb_question AS q " +
             "INNER JOIN tb_validation_question_user AS vqu ON q.question_id = vqu.question_id " +
-            "WHERE vqu.user_account_id = :userId", nativeQuery = true)
+            "WHERE vqu.user_id = :userId", nativeQuery = true)
     List<Question> findQuestionsToApprovals(Long userId);
 
     @Query(value = "SELECT * FROM tb_question WHERE accepted = 1" +
