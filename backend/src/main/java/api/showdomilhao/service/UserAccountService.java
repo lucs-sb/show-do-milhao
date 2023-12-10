@@ -98,15 +98,15 @@ public class UserAccountService {
             throw new MessageNotFoundException("Usuário não encontrado");
         }));
 
-        if (!newUserAccount.getName().isBlank())
+        if (newUserAccount.getName() != null && !newUserAccount.getName().isBlank())
             userAccount.get().setName(newUserAccount.getName());
-        if (!newUserAccount.getNickname().isBlank() && repository.findUserByNickname(newUserAccount.getNickname()).isEmpty())
+        if (newUserAccount.getNickname() != null && !newUserAccount.getNickname().isBlank() && repository.findUserByNickname(newUserAccount.getNickname()).isEmpty())
             userAccount.get().setNickname(newUserAccount.getNickname());
         repository.save(userAccount.get());
 
-        if (!newUserAccount.getNickname().isBlank())
+        if (newUserAccount.getNickname() != null && !newUserAccount.getNickname().isBlank())
             login.get().setNickname(userAccount.get().getNickname());
-        if (!newUserAccount.getPassword().isBlank())
+        if (newUserAccount.getPassword() != null && !newUserAccount.getPassword().isBlank())
             login.get().setPassword(passwordEncoder.encode(newUserAccount.getPassword()));
         loginRepository.save(login.get());
     }
