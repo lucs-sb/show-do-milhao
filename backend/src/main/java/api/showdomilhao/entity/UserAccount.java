@@ -15,7 +15,7 @@ import java.util.Set;
 public class UserAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String nickname;
     private String name;
