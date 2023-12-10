@@ -1,31 +1,37 @@
 package api.showdomilhao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@Table("tb_login")
+@Entity
+@Table(name = "tb_login")
 @Getter
 @Setter
 public class Login implements UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long loginId;
     private String nickname;
     private String password;
-    @MappedCollection(idColumn = "login_id")
+    @JoinTable(
+            name = "login_role",
+            joinColumns = @JoinColumn(name = "login_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles = new HashSet<>();
-    private Long userAccountId;
-    private LocalDateTime deletionDate;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserAccount user;
 
     public Login(){}
 

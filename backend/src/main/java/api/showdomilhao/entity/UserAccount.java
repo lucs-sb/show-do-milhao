@@ -1,30 +1,39 @@
 package api.showdomilhao.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Table("tb_user_account")
+@Entity
+@Table(name = "tb_user_account")
 @Getter
 @Setter
 public class UserAccount {
 
     @Id
-    private Long userAccountId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userId;
     private String nickname;
     private String name;
     private String avatar;
-    private LocalDateTime deletionDate;
-    @MappedCollection(idColumn = "user_account_id")
-    private Set<ValidationQuestionUser> validationQuestions = new HashSet<>();
-    @MappedCollection(idColumn = "user_account_id")
-    private Set<ValidatedQuestionsUser> validatedQuestions = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "tb_validation_question_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id")
+    )
+    private Set<Question> validationQuestions = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "tb_validated_questions_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id")
+    )
+    private Set<Question> validatedQuestions = new HashSet<>();
 
     public UserAccount(){}
 }

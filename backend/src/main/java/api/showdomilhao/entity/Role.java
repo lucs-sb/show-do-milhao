@@ -1,20 +1,20 @@
 package api.showdomilhao.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 
-@Table("tb_role")
+@Entity
+@Table(name = "tb_role")
 @Getter
 @Setter
 public class Role implements GrantedAuthority {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roleId;
     private String name;
-    Long login_id;
 
     @Override
     public String getAuthority() {

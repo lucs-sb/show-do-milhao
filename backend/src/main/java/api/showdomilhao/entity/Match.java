@@ -1,30 +1,35 @@
 package api.showdomilhao.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Table("tb_match")
+@Entity
+@Table(name = "tb_match")
 @Getter
 @Setter
 public class Match {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matchId;
-    private Long userAccountId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserAccount user;
     private int award;
     private boolean ended;
     private int lastQuestionAnswered;
     private boolean deletedAnswers;
     private String reasonForClosing;
-    @MappedCollection(idColumn = "match_id")
-    private Set<MatchQuestion> questions = new HashSet<>();
-    @MappedCollection(idColumn = "match_id")
-    private Set<MatchAnswer> answers = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "tb_match_question",
+            joinColumns = @JoinColumn(name = "match_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id")
+    )
+    private Set<Question> questions = new HashSet<>();
 
     public Match(){}
 }

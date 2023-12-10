@@ -1,32 +1,37 @@
 package api.showdomilhao.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Table("tb_question")
+@Entity
+@Table(name = "tb_question")
 @Getter
 @Setter
 public class Question {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
-    private Long userAccountId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserAccount user;
     private String statement;
     private boolean accepted;
     private int amountApprovals;
     private int amountFailures;
     private int amountComplaints;
-    private LocalDateTime deletionDate;
 
-    @MappedCollection(idColumn = "question_id")
-    private Set<QuestionAnswer> answers = new HashSet<>();
+    @OneToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "tb_question_answer",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "answer_id")
+    )
+    private Set<Answer> answers = new HashSet<>();
 
     public Question(){}
 }

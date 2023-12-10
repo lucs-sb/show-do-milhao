@@ -1,16 +1,17 @@
 package api.showdomilhao.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
-@Table("tb_answer")
+@Entity
+@Table(name ="tb_answer")
 @Getter
 @Setter
 public class Answer {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
     private String description;
     private boolean correct;
