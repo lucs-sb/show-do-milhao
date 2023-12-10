@@ -76,17 +76,13 @@ public class UserAccountService {
         repository.save(userAccount.get());
 
         Login login = new Login();
-        login.setUserAccountId(userAccount.get().getUserAccountId());
+        login.setUser(userAccount.get());
         login.setNickname(userAccount.get().getNickname());
         login.setPassword(passwordEncoder.encode(password));
         loginRepository.save(login);
 
-        Role role = new Role();
-        role.setName("USER");
-        role.setLogin_id(login.getLoginId());
-        roleRepository.save(role);
-
         Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName("USER");
         roles.add(role);
 
         login.setRoles(roles);
@@ -125,11 +121,8 @@ public class UserAccountService {
             throw new MessageNotFoundException("Usuário não encontrado");
         }));
 
-        userAccount.get().setDeletionDate(LocalDateTime.now());
-        login.get().setDeletionDate(LocalDateTime.now());
-
-        repository.save(userAccount.get());
-        loginRepository.save(login.get());
+        loginRepository.delete(login.get());
+        repository.delete(userAccount.get());
     }
 
     @Transactional(readOnly = true)
