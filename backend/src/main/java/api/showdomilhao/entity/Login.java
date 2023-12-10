@@ -22,7 +22,7 @@ public class Login implements UserDetails {
     private Long loginId;
     private String nickname;
     private String password;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "tb_login_role",
             joinColumns = @JoinColumn(name = "login_id"),
