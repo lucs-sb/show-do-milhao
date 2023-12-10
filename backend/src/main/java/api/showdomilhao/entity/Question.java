@@ -16,7 +16,7 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserAccount user;
     private String statement;
@@ -25,7 +25,7 @@ public class Question {
     private int amountFailures;
     private int amountComplaints;
 
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "tb_question_answer",
             joinColumns = @JoinColumn(name = "question_id"),

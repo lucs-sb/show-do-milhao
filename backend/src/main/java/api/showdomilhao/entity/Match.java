@@ -15,7 +15,7 @@ public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matchId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserAccount user;
     private int award;
@@ -23,9 +23,9 @@ public class Match {
     private int lastQuestionAnswered;
     private boolean deletedAnswers;
     private String reasonForClosing;
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "match")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "match")
     private Set<MatchQuestion> matchQuestions = new HashSet<>();
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "match")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "match")
     private Set<MatchAnswer> matchAnswers = new HashSet<>();
 
     public Match(){}
