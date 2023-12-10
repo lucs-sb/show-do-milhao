@@ -38,7 +38,7 @@ public class MatchService {
 
     @Transactional
     public Long create(Match newMatch){
-        Optional<UserAccount> userAccount = Optional.ofNullable(userAccountRepository.findById(newMatch.getUserAccountId()).orElseThrow(() -> {
+        Optional<UserAccount> userAccount = Optional.ofNullable(userAccountRepository.findById(newMatch.getUser().getUserId()).orElseThrow(() -> {
             throw new MessageNotFoundException("Usuário não encontrado");
         }));
 
@@ -47,18 +47,18 @@ public class MatchService {
         List<Question> questions = questionRepository.findByAcceptedForMatch();
 
         questions.forEach(question -> {
-            matchQuestions.add(new MatchQuestion(question.getQuestionId(), questions.indexOf(question)));
+            matchQuestions.add(new MatchQuestion(question, questions.indexOf(question)));
             question.getAnswers().forEach(answer -> {
-                matchAnswers.add(new MatchAnswer(question.getQuestionId(), answer.getAnswerId(), false));
+                matchAnswers.add(new MatchAnswer(answer, false));
             });
         });
 
         Match match = new Match();
-        match.setUserAccountId(userAccount.get().getUserAccountId());
+        match.setUser(userAccount.get());
         match.setEnded(false);
         match.setDeletedAnswers(false);
-        match.setQuestions(matchQuestions);
-        match.setAnswers(matchAnswers);
+        match.setMatchQuestions(matchQuestions);
+        match.setMatchAnswers(matchAnswers);
 
         repository.save(match);
 
@@ -79,8 +79,8 @@ public class MatchService {
 
         if (newMatch.answers() != null && !newMatch.answers().isEmpty()){
             newMatch.answers().forEach(answerId -> {
-                match.get().getAnswers().forEach(matchAnswer -> {
-                    if (answerId == matchAnswer.getAnswerId())
+                match.get().getMatchAnswers().forEach(matchAnswer -> {
+                    if (Objects.equals(answerId, matchAnswer.getAnswer().getAnswerId()))
                         matchAnswer.setDeleted(true);
                 });
             });

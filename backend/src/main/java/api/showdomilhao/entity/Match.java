@@ -23,13 +23,10 @@ public class Match {
     private int lastQuestionAnswered;
     private boolean deletedAnswers;
     private String reasonForClosing;
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(
-            name = "tb_match_question",
-            joinColumns = @JoinColumn(name = "match_id"),
-            inverseJoinColumns = @JoinColumn(name = "question_id")
-    )
-    private Set<Question> questions = new HashSet<>();
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "match")
+    private Set<MatchQuestion> matchQuestions = new HashSet<>();
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "match")
+    private Set<MatchAnswer> matchAnswers = new HashSet<>();
 
     public Match(){}
 }
