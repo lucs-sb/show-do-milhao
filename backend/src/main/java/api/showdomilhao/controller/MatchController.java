@@ -80,9 +80,9 @@ public class MatchController {
     })
     @PostMapping
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity<Long> create(@RequestBody Match match) throws Exception{
+    public ResponseEntity<Long> create(@RequestParam Long userId) throws Exception{
         try {
-            Long id = service.create(match);
+            Long id = service.create(userId);
             return new ResponseEntity<>(id, HttpStatus.CREATED);
         }catch (Exception ex){
             throw new Exception(ex);

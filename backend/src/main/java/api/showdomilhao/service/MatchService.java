@@ -37,10 +37,8 @@ public class MatchService {
     }
 
     @Transactional
-    public Long create(Match newMatch){
-        Optional<UserAccount> userAccount = Optional.ofNullable(userAccountRepository.findById(newMatch.getUser().getUserId()).orElseThrow(() -> {
-            throw new MessageNotFoundException("Usuário não encontrado");
-        }));
+    public Long create(Long userId){
+        Optional<UserAccount> userAccount = Optional.ofNullable(userAccountRepository.findById(userId).orElseThrow(() -> new MessageNotFoundException("Usuário não encontrado")));
 
         Set<MatchQuestion> matchQuestions = new HashSet<>();
         Set<MatchAnswer> matchAnswers = new HashSet<>();
@@ -67,9 +65,7 @@ public class MatchService {
 
     @Transactional
     public void update(MatchDTO newMatch){
-        Optional<Match> match = Optional.ofNullable(repository.findById(newMatch.matchId()).orElseThrow(() -> {
-            throw new MessageNotFoundException("Partida não encontrada na base");
-        }));
+        Optional<Match> match = Optional.ofNullable(repository.findById(newMatch.matchId()).orElseThrow(() -> new MessageNotFoundException("Partida não encontrada na base")));
 
         match.get().setAward(newMatch.award());
         match.get().setEnded(newMatch.ended());
