@@ -45,6 +45,16 @@ public class QuestionService {
         if (newQuestion.getAnswers().size() != 4)
             throw new MessageBadRequestException("A pergunta deve conter 4 respostas");
 
+        int count = 0;
+
+        for (Answer answer : newQuestion.getAnswers()){
+            if (answer.isCorrect())
+                count++;
+        };
+
+        if (count != 1)
+            throw new MessageBadRequestException("A pergunta deve conter 1 resposta correta");
+
         Optional<UserAccount> userAccount = Optional.ofNullable(userAccountRepository.findById(newQuestion.getUserAccountId()).orElseThrow(() -> {
             throw new MessageNotFoundException("Usuário não encontrado");
         }));
