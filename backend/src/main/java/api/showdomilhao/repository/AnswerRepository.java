@@ -1,6 +1,7 @@
 package api.showdomilhao.repository;
 
 import api.showdomilhao.entity.Answer;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,8 @@ public interface AnswerRepository extends CrudRepository<Answer, Long> {
             "WHERE qa.question_id = :questionId AND ma.match_id = :matchId AND ma.deleted = 0 " +
             "ORDER BY RAND()", nativeQuery = true)
     Set<Answer> findAnswersByMatchIdAndQuestionId(Long matchId, Long questionId);
+
+    @Query(value = "SELECT * FROM tb_answer " +
+            "WHERE answer_id IN (SELECT answer_id FROM tb_question_answer WHERE question_id = :questionId)", nativeQuery = true)
+    Set<Answer> findAnswersByQuestionId(Long questionId);
 }

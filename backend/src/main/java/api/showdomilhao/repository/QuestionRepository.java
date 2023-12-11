@@ -1,6 +1,7 @@
 package api.showdomilhao.repository;
 
 import api.showdomilhao.entity.Question;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -30,4 +31,16 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
     @Query(value = "SELECT * FROM tb_question WHERE accepted = 1" +
             " ORDER BY RAND() LIMIT 7", nativeQuery = true)
     List<Question> findByAcceptedForMatch();
+
+    @Modifying
+    @Query(value = "DELETE FROM tb_validation_question_user WHERE question_id = :questionId", nativeQuery = true)
+    void deleteQuestionInValidation(Long questionId);
+
+    @Modifying
+    @Query(value = "DELETE FROM tb_validated_question_user WHERE question_id = :questionId", nativeQuery = true)
+    void deleteQuestionValidated(Long questionId);
+
+    @Modifying
+    @Query(value = "DELETE FROM tb_match_question WHERE question_id = :questionId", nativeQuery = true)
+    void deleteQuestionInTheMatch(Long questionId);
 }

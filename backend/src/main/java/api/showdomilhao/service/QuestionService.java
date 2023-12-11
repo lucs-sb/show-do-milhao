@@ -100,10 +100,16 @@ public class QuestionService {
     @Transactional
     public void deleteQuestion(Long questionId){
         Optional<Question> question = Optional.ofNullable(repository.findById(questionId)
-                .orElseThrow(() -> {
-                    throw new MessageNotFoundException("Pergunta não encontrada na base");
-                }));
+                .orElseThrow(() -> new MessageNotFoundException("Pergunta não encontrada na base")));
+
+        Set<Answer> answers = answerRepository.findAnswersByQuestionId(questionId);
+
+        repository.deleteQuestionInValidation(questionId);
+        repository.deleteQuestionValidated(questionId);
+        repository.deleteQuestionInTheMatch(questionId);
         repository.delete(question.get());
+
+        answers.forEach(answer -> answerRepository.delete(answer));
     }
 
     @Transactional
