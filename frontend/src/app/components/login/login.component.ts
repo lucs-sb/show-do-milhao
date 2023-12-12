@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     try {
-      if(!this.formUser.value.email || !this.formUser.value.password)
+      //if(!this.formUser.value.email || !this.formUser.value.password)
         //this.notifier.notify('error','Preencha todos os campos');
 
       this.loginService.login(this.formUser.value.email, this.formUser.value.password);

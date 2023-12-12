@@ -5,7 +5,6 @@ import { StorageService } from './storage.service';
 import { User } from '../entities/user';
 import { Login } from '../entities/login';
 import { Router } from '@angular/router';
-import { NotifierService } from 'angular-notifier';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,6 @@ export class UserService {
 
   constructor(private http: HttpClient, 
     private storage: StorageService, 
-    private notifier: NotifierService,
     private router: Router) { }
 
   login(username: any, password: any) {
@@ -31,7 +29,6 @@ export class UserService {
         this.storage.set('user_id', res.user_id);
         this.router.navigate(['/home']);
       }, () => {
-        this.notifier.notify('error', 'Informações inválidas');
       });
   }
 
