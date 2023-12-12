@@ -13,6 +13,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { UserComponent } from './components/user/user.component';
 import { HalldafamaComponent } from './components/halldafama/halldafama.component';
 import { QuestionManagementComponent } from './components/question-management/question-management.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -30,9 +31,9 @@ import { QuestionManagementComponent } from './components/question-management/qu
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

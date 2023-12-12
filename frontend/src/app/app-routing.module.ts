@@ -7,6 +7,7 @@ import { PlayComponent } from './components/play/play.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserComponent } from './components/user/user.component';
 import { HalldafamaComponent } from './components/halldafama/halldafama.component';
+import { QuestionManagementComponent } from './components/question-management/question-management.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'play', component: PlayComponent, canActivate: [AuthenticatedGuard] },
   { path: 'user', component: UserComponent, canActivate: [AuthenticatedGuard] },
   { path: 'hall-da-fama', component: HalldafamaComponent, canActivate: [AuthenticatedGuard] },
+  { path: 'question-management', component: QuestionManagementComponent, canActivate: [AuthenticatedGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 

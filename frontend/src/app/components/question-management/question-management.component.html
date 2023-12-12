@@ -1,0 +1,67 @@
+
+<div class="p-5 pb-0">
+    <div class="row">
+      <div class="col-10">
+        <div id="div-search" class="input-group mb-3">
+            <select name="questions" id="questions" [(ngModel)]="accepted">
+              <option value="false">tipo de perguntas</option>
+              <option value="true">aceitos</option>
+              <option value="false">não aceitos</option>
+            </select>
+            <select name="questions" id="questions" [(ngModel)]="ordination">
+                <option value="desc">tipo de ordenação</option>
+                <option value="asc">+antigos</option>
+                <option value="desc">+recentes</option>
+                <option value="true">aceitos</option>
+                <option value="false">não aceitos</option>
+            </select>
+            <div class="input-group-append">
+                <button (click)="searchQuestions()" class="btn btn-outline-secondary" type="button">Pesquisar</button>
+            </div>
+            <div class="input-group-append">
+                <a routerLink="#" class="btn btn-outline-success" (click)="addQuestion()" data-bs-toggle="modal" data-bs-target="#exampleModal">+Adiconar</a>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="p-5 pt-0">
+    <div class="row">
+      <h3>Perguntas aceitas e não aceitas</h3>
+      <ul class="list-group list-group-flush" *ngFor="let question of questions | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count}; let i = index">
+        <li class="list-group-item">{{question.statement}}</li>
+      </ul>
+    </div>
+    <div class="mt-3 container">
+      <div class="page-size">
+        Itens por busca:
+        <select (change)="handlePageSizeChange($event)">
+          <option *ngFor="let size of pageSizes" [ngValue]="size">
+            {{ size }}
+          </option>
+        </select>
+      </div>
+      <div class="page">
+        <ul class="pagination pagination-sm">
+          <li class="page-item">
+            <a class="page-link" aria-label="Previous" (click)="handlePageChange('previous')" [hidden]="previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+            <a class="page-link disabled" aria-label="Previous" (click)="handlePageChange('previous')" [hidden]="!previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item" id="{{size}}" *ngFor="let size of totalPages"><a class="page-link" (click)="handlePageChange(size)">{{ size }}</a></li>
+          <li class="page-item">
+            <a class="page-link" aria-label="Next" (click)="handlePageChange('next')" [hidden]="next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+            <a class="page-link disabled" aria-label="Next" (click)="handlePageChange('next')" [hidden]="!next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+</div>
