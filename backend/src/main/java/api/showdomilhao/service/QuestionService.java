@@ -8,6 +8,8 @@ import api.showdomilhao.repository.AnswerRepository;
 import api.showdomilhao.repository.QuestionRepository;
 import api.showdomilhao.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +26,8 @@ public class QuestionService {
     private UserAccountRepository userAccountRepository;
 
     @Transactional(readOnly = true)
-    public List<Question> findQuestionsByUserIdAndAccepted(Long userId, boolean accepted){
-        return repository.findQuestionsByUserIdAndAccepted(userId, accepted);
+    public Page<Question> findQuestionsByUserIdAndAccepted(Long userId, boolean accepted, Pageable pageable){
+        return repository.findQuestionsByUserIdAndAccepted(userId, accepted, pageable);
     }
 
     @Transactional(readOnly = true)

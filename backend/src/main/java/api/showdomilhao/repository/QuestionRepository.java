@@ -1,6 +1,8 @@
 package api.showdomilhao.repository;
 
 import api.showdomilhao.entity.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -21,7 +23,7 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
 
     @Query(value = "SELECT * FROM tb_question WHERE user_id = :userId " +
             "AND accepted = :accepted", nativeQuery = true)
-    List<Question> findQuestionsByUserIdAndAccepted(Long userId, boolean accepted);
+    Page<Question> findQuestionsByUserIdAndAccepted(Long userId, boolean accepted, Pageable pageable);
 
     @Query(value = "SELECT q.* FROM tb_question AS q " +
             "INNER JOIN tb_validation_question_user AS vqu ON q.question_id = vqu.question_id " +

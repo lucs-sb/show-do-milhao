@@ -12,6 +12,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,9 +51,9 @@ public class QuestionController {
     })
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity<List<Question>> findQuestionsByUserIdAndAccepted(@RequestParam Long userId, @RequestParam boolean accepted) throws Exception{
+    public ResponseEntity<Page<Question>> findQuestionsByUserIdAndAccepted(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC, sort = "question_id") Pageable pageable, @RequestParam Long userId, @RequestParam boolean accepted) throws Exception{
         try {
-            List<Question> questions = service.findQuestionsByUserIdAndAccepted(userId, accepted);
+            Page<Question> questions = service.findQuestionsByUserIdAndAccepted(userId, accepted, pageable);
             return new ResponseEntity<>(questions, HttpStatus.OK);
         }catch (Exception ex){
             throw new Exception(ex);
