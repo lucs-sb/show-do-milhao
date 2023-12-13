@@ -25,10 +25,6 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Long>
             " ORDER BY RAND() LIMIT 5", nativeQuery = true)
     List<UserAccount> findUsersToValidateQuestion(Long id);
 
-    @Query(value = "SELECT hall.nickname, hall.user_id, hall.total_award FROM " +
-            "(SELECT ua.user_id, ua.nickname, SUM(m.award) AS total_award FROM tb_user_account AS ua " +
-            "INNER JOIN tb_match AS m ON m.user_id = ua.user_id " +
-            "WHERE m.ended = 1 GROUP BY ua.nickname) hall " +
-            "ORDER BY hall.total_award DESC LIMIT 10", nativeQuery = true)
-    List<HallDaFamaDTO> findHallDaFama();
+    @Query(value = "SELECT * FROM tb_user_account ORDER BY total_award DESC LIMIT 10", nativeQuery = true)
+    List<UserAccount> findHallDaFama();
 }

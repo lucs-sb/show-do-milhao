@@ -127,7 +127,10 @@ public class UserAccountService {
 
     @Transactional(readOnly = true)
     public List<HallDaFamaDTO> getHalldaFama() {
-        return repository.findHallDaFama();
+        List<HallDaFamaDTO> hallDaFama = new ArrayList<>();
+        List<UserAccount> user = repository.findHallDaFama();
+        user.forEach(hall -> hallDaFama.add(new HallDaFamaDTO(hall.getUserId(), hall.getNickname(), hall.getTotalAward())));
+        return hallDaFama;
     }
 
     private String saveFile(MultipartFile file){

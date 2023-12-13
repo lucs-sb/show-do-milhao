@@ -101,5 +101,13 @@ public class MatchService {
         }
 
         repository.save(match.get());
+
+        if (match.get().isEnded()){
+            Optional<UserAccount> user = userAccountRepository.findById(match.get().getUser().getUserId());
+            Long totalAward = user.get().getTotalAward() + match.get().getAward();
+            user.get().setTotalAward(totalAward);
+            userAccountRepository.save(user.get());
+        }
+
     }
 }
