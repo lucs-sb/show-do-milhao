@@ -3,9 +3,7 @@ package api.showdomilhao.service;
 import api.showdomilhao.dto.MatchDTO;
 import api.showdomilhao.entity.*;
 import api.showdomilhao.exceptionHandler.exceptions.MessageNotFoundException;
-import api.showdomilhao.repository.MatchRepository;
-import api.showdomilhao.repository.QuestionRepository;
-import api.showdomilhao.repository.UserAccountRepository;
+import api.showdomilhao.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +18,10 @@ public class MatchService {
     private QuestionRepository questionRepository;
     @Autowired
     private UserAccountRepository userAccountRepository;
+    @Autowired
+    private MatchQuestionRepository matchQuestionRepository;
+    @Autowired
+    private MatchAnswerRepository matchAnswerRepository;
 
     @Transactional(readOnly = true)
     public Optional<Match> findById(Long id){
@@ -40,24 +42,38 @@ public class MatchService {
     public Long create(Long userId){
         Optional<UserAccount> userAccount = Optional.ofNullable(userAccountRepository.findById(userId).orElseThrow(() -> new MessageNotFoundException("Usuário não encontrado")));
 
+        Match match = new Match();
+        match.setUser(userAccount.get());
+        match.setEnded(false);
+        match.setDeletedAnswers(false);
+        repository.save(match);
+
         Set<MatchQuestion> matchQuestions = new HashSet<>();
         Set<MatchAnswer> matchAnswers = new HashSet<>();
         List<Question> questions = questionRepository.findByAcceptedForMatch();
 
         questions.forEach(question -> {
-            matchQuestions.add(new MatchQuestion(question, questions.indexOf(question)));
+            MatchQuestion matchQuestion = new MatchQuestion();
+            matchQuestion.setMatch(match);
+            matchQuestion.setQuestionId(question.getQuestionId());
+            matchQuestion.setPosition(questions.indexOf(question));
+            matchQuestionRepository.save(matchQuestion);
+
+            matchQuestions.add(matchQuestion);
+
             question.getAnswers().forEach(answer -> {
-                matchAnswers.add(new MatchAnswer(answer, false));
+                MatchAnswer matchAnswer = new MatchAnswer();
+                matchAnswer.setMatch(match);
+                matchAnswer.setAnswerId(answer.getAnswerId());
+                matchAnswer.setDeleted(false);
+                matchAnswerRepository.save(matchAnswer);
+
+                matchAnswers.add(matchAnswer);
             });
         });
 
-        Match match = new Match();
-        match.setUser(userAccount.get());
-        match.setEnded(false);
-        match.setDeletedAnswers(false);
         match.setMatchQuestions(matchQuestions);
         match.setMatchAnswers(matchAnswers);
-
         repository.save(match);
 
         return match.getMatchId();
@@ -76,8 +92,10 @@ public class MatchService {
         if (newMatch.answers() != null && !newMatch.answers().isEmpty()){
             newMatch.answers().forEach(answerId -> {
                 match.get().getMatchAnswers().forEach(matchAnswer -> {
-                    if (Objects.equals(answerId, matchAnswer.getAnswer().getAnswerId()))
+                    if (Objects.equals(answerId, matchAnswer.getAnswerId())) {
                         matchAnswer.setDeleted(true);
+                        matchAnswerRepository.save(matchAnswer);
+                    }
                 });
             });
         }
