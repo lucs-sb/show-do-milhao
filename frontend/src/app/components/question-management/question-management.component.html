@@ -35,7 +35,7 @@
     </div>
     <div class="mt-3 container">
       <div class="page-size">
-        Itens por busca:
+        <p>Itens por busca:</p>
         <select (change)="handlePageSizeChange($event)">
           <option *ngFor="let size of pageSizes" [ngValue]="size">
             {{ size }}

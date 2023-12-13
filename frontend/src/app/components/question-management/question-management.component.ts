@@ -46,18 +46,15 @@ export class QuestionManagementComponent implements OnInit{
   }
 
   searchQuestions(){
-    /*try {
-      this.championships = [];
+    try {
+      this.questions = [];
 
-      if("desc" == this.ordination || "asc" == this.ordination)
-      this.ordination = "id,"+this.ordination
-
-      this.championshipService.getChampionshipsBySearch(this.search, "size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination).subscribe((res) => {
-        this.championships = res.content;
+      this.questionService.getQuestionsByAccepted(this.accepted, "size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination).subscribe((res) => {
+        this.questions = res.content;
         this.page = res.number;
         this.count = res.totalElements;
         this.pageSize = res.size;
-        this.ordination = "asc";
+        this.ordination = "desc";
         this.totalPages = [0];
 
         for(var i = 1; i < res.totalPages; i++)
@@ -79,19 +76,12 @@ export class QuestionManagementComponent implements OnInit{
           else
             document.getElementById(this.totalPages[i].toString())?.classList.add("active");
         }
-
-        for(var j = 0; j < this.championships.length; j++){
-          if(this.championships[j].status == 'IN_PROGRESS')
-            this.championships[j].status = 'Em andamento'
-          else if(this.championships[j].status == 'CLOSED')
-            this.championships[j].status = 'Finalizado'
-        }
       }, () => {
-        this.notifier.notify('error', 'Não foi possível carregar os campeonatos no momento, tente novamente mais tarde');
+        
       });
     }catch (ex: any) {
-      this.notifier.notify('error', ex);
-    }*/
+      
+    }
   }
 
   addQuestion(): void{
@@ -156,9 +146,6 @@ export class QuestionManagementComponent implements OnInit{
 
   retrieveQuestions(): void{
     try {
-      //if("desc" == this.ordination || "asc" == this.ordination)
-      //this.ordination = this.ordination
-
       this.questionService.getQuestionsByAccepted(this.accepted, "size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination)
       .subscribe(
         res => {
