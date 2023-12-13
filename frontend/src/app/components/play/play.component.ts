@@ -5,6 +5,7 @@ import { Match } from 'src/app/entities/match';
 import { Question } from 'src/app/entities/question';
 import { MatchService } from 'src/app/services/match.service';
 import { QuestionService } from 'src/app/services/question.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-play',
@@ -31,25 +32,28 @@ export class PlayComponent implements OnInit {
   constructor(
     private matchService: MatchService, 
     private questionService: QuestionService,
-    private router: Router) { }
+    private router: Router,
+    private localStorage: StorageService) { }
 
   ngOnInit(): void {
-    console.log(this.answers);
     this.getMatchById();
   }
 
   getMatchById(): void{
     try {
-      this.matchService.getMatchById(localStorage.getItem("match_id")).subscribe((res) => {
+      this.matchService.getMatchById(this.localStorage.get("match_id")).subscribe((res) => {
         this.match = res;
         this.isDeleted = this.match.deletedAnswers;
         this.lastQuestionAnswered = this.match.lastQuestionAnswered;
         this.info = this.prizeTable[this.match.lastQuestionAnswered];
 
-        this.questionService.getQuestionByIdAndMatchId(this.match.questions.find(x => x.position == this.match?.lastQuestionAnswered)?.questionId, this.match.matchId).subscribe(
+        this.questionService.getQuestionByIdAndMatchId(this.match.matchQuestions.find(x => x.position == this.match?.lastQuestionAnswered)?.questionId, this.match.matchId).subscribe(
           (res) => {
             this.question = res;
             this.answers = res.answers;
+            this.match?.matchAnswers.filter(x => x.deleted == true).forEach(x => {
+              this.answers = this.answers?.filter(y => y.answerId != x.answerId);
+            });
           });
       }, () => {
         this.router.navigate(['/home']);
@@ -91,12 +95,16 @@ export class PlayComponent implements OnInit {
         reasonForClosing = 'Perdeu';
       }
 
+      const user = {
+        userId: this.localStorage.get('user_id')
+      }
+  
       const body = {
         matchId: this.match?.matchId,
-        userAccountId: this.match?.userAccountId,
+        user: user,
         award: award,
         ended: ended,
-        lastQuestionAnswered: lastQuestionAnswered,
+        lastQuestionAnswered: lastQuestionAnswered + 1,
         deletedAnswers: this.isDeleted,
         reasonForClosing: reasonForClosing
       };
@@ -104,10 +112,14 @@ export class PlayComponent implements OnInit {
       this.matchService.updateMatch(body).subscribe((res) => {
         if(body.ended == false){
           this.info = this.prizeTable[this.lastQuestionAnswered];
-          this.questionService.getQuestionByIdAndMatchId(this.match?.questions.find(x => x.position == this.lastQuestionAnswered)?.questionId, this.match?.matchId).subscribe(
+          console.log(this.lastQuestionAnswered);
+          this.questionService.getQuestionByIdAndMatchId(this.match?.matchQuestions.find(x => x.position == this.lastQuestionAnswered)?.questionId, this.match?.matchId).subscribe(
             (res) => {
               this.question = res;
               this.answers = res.answers;
+              this.match?.matchAnswers.filter(x => x.deleted == true).forEach(x => {
+                this.answers = this.answers?.filter(y => y.answerId != x.answerId);
+              });
           });
         }
         else{
@@ -132,9 +144,13 @@ export class PlayComponent implements OnInit {
         award = Number.parseInt(this.info[1].split(' ')[1]) * 1000;
       }
 
+      const user = {
+        userId: this.localStorage.get('user_id')
+      }
+  
       const body = {
         matchId: this.match?.matchId,
-        userAccountId: this.match?.userAccountId,
+        user: user,
         award: award,
         ended: true,
         lastQuestionAnswered: this.lastQuestionAnswered++,
@@ -173,9 +189,13 @@ export class PlayComponent implements OnInit {
 
     this.isDeleted = true;
 
+    const user = {
+      userId: this.localStorage.get('user_id')
+    }
+
     const body = {
       matchId: this.match?.matchId,
-      userAccountId: this.match?.userAccountId,
+      user: user,
       questionId: this.question?.questionId,
       ended: false,
       lastQuestionAnswered: this.lastQuestionAnswered,

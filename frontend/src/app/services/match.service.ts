@@ -22,10 +22,7 @@ export class MatchService {
     const httpOptions = {
       headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
     };
-    var body = {
-      'userAccountId': this.localStorage.get('user_id')
-    }
-    return this.http.post<number>(this.API_URL, body, httpOptions); 
+    return this.http.post<number>(this.API_URL+`?userId=${this.localStorage.get('user_id')}`, null, httpOptions); 
   }
 
   updateMatch(match: any) {
