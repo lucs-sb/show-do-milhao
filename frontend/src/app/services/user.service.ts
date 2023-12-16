@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
 import { StorageService } from './storage.service';
 import { User } from '../entities/user';
 import { Login } from '../entities/login';
 import { Router } from '@angular/router';
+import { HTTP_OPTIONS, API_URL_DEFAULT } from '../env/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private API_URL = 'http://localhost:8080/api/user';
+  private API_URL = API_URL_DEFAULT + 'user';
 
   constructor(private http: HttpClient, 
     private storage: StorageService, 
@@ -33,10 +33,7 @@ export class UserService {
   }
 
   getUserById(id: any) {
-    const httpOptions = {
-      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
-    };
-    return this.http.get<User>(this.API_URL+`/${id}`, httpOptions); 
+    return this.http.get<User>(this.API_URL+`/${id}`, HTTP_OPTIONS); 
   }
 
   addUser(user: any) {
@@ -44,23 +41,14 @@ export class UserService {
   }
 
   updateUser(user: any, id: any) {
-    const httpOptions = {
-      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
-    };
-    return this.http.put<any>(this.API_URL+`/${id}`, user, httpOptions); 
+    return this.http.put<any>(this.API_URL+`/${id}`, user, HTTP_OPTIONS); 
   }
 
   deleteUser(id: any) {
-    const httpOptions = {
-      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
-    };
-    return this.http.delete<any>(this.API_URL+`/${id}`, httpOptions); 
+    return this.http.delete<any>(this.API_URL+`/${id}`, HTTP_OPTIONS); 
   }
 
   getHallDaFama() {
-    const httpOptions = {
-      headers: { authorization: 'Bearer ' + localStorage.getItem("authorization") },
-    };
-    return this.http.get<User[]>(this.API_URL+'/hall-da-fama', httpOptions); 
+    return this.http.get<User[]>(this.API_URL+'/hall-da-fama', HTTP_OPTIONS); 
   }
 }
