@@ -26,6 +26,11 @@ public class QuestionService {
     private UserAccountRepository userAccountRepository;
 
     @Transactional(readOnly = true)
+    public Page<Question> findQuestionsByUserId(Long userId, Pageable pageable){
+        return repository.findQuestionsByUserId(userId, pageable);
+    }
+
+    @Transactional(readOnly = true)
     public Page<Question> findQuestionsByUserIdAndAccepted(Long userId, boolean accepted, Pageable pageable){
         return repository.findQuestionsByUserIdAndAccepted(userId, accepted, pageable);
     }

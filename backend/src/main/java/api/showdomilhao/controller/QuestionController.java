@@ -45,8 +45,23 @@ public class QuestionController {
         }
     }
 
+    @Operation(summary = "Buscar perguntas adicionadas pelo ID do usuário")
+    @ApiResponse(responseCode = "200", description = "Buscou as perguntas", content = {
+            @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Question.class)))
+    })
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public ResponseEntity<Page<Question>> findQuestionsByUserId(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC, sort = "question_id") Pageable pageable, @PathVariable Long userId) throws Exception{
+        try {
+            Page<Question> questions = service.findQuestionsByUserId(userId, pageable);
+            return new ResponseEntity<>(questions, HttpStatus.OK);
+        }catch (Exception ex){
+            throw new Exception(ex);
+        }
+    }
+
     @Operation(summary = "Buscar perguntas aceitas ou não aceitas pelo ID do usuário")
-    @ApiResponse(responseCode = "200", description = "Buscou a partida", content = {
+    @ApiResponse(responseCode = "200", description = "Buscou as perguntas", content = {
             @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Question.class)))
     })
     @GetMapping
@@ -61,10 +76,10 @@ public class QuestionController {
     }
 
     @Operation(summary = "Buscar perguntas para aprovações pelo ID do usuário")
-    @ApiResponse(responseCode = "200", description = "Buscou a partida", content = {
+    @ApiResponse(responseCode = "200", description = "Buscou as perguntas", content = {
             @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Question.class)))
     })
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{userId}/approval")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<List<Question>> findQuestionsToApprovals(@PathVariable Long userId) throws Exception{
         try {

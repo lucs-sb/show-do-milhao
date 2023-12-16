@@ -45,4 +45,7 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
     @Modifying
     @Query(value = "DELETE FROM tb_match_question WHERE question_id = :questionId", nativeQuery = true)
     void deleteQuestionInTheMatch(Long questionId);
+
+    @Query(value = "SELECT * FROM tb_question WHERE user_id = :userId", nativeQuery = true)
+    Page<Question> findQuestionsByUserId(Long userId, Pageable pageable);
 }
