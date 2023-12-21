@@ -14,16 +14,13 @@ export class QuestionManagementComponent implements OnInit{
   questions: Question[] = [];
   search: string = '';
   ordination: string = 'asc';
-  accepted = false;
+  type = 'all';
 
-  formQuestion = this.formBuilder.group({
-    name: ['', [Validators.required]],
-    description: ['', [Validators.required]],
-    award: ['', [Validators.required]],
-    user: this.formBuilder.group({
-      id: this.localStorage.get('user_id')
-    }),
-    teams: new FormBuilder().array([])
+  formUser = this.formBuilder.group({
+    name: '',
+    nickname: '',
+    password: '',
+    url_photo: ''
   });
 
   data: any;
@@ -31,8 +28,8 @@ export class QuestionManagementComponent implements OnInit{
   currentIndex = -1;
   page = 0;
   count = 0;
-  pageSize = 10;
-  pageSizes = [10, 15, 20];
+  pageSize = 3;
+  pageSizes = [3, 6, 10];
   totalPages = [0];
   next = true;
   previous = true;
@@ -48,39 +45,71 @@ export class QuestionManagementComponent implements OnInit{
   searchQuestions(){
     try {
       this.questions = [];
-
-      this.questionService.getQuestionsByAccepted(this.accepted, "size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination).subscribe((res) => {
-        this.questions = res.content;
-        this.page = res.number;
-        this.count = res.totalElements;
-        this.pageSize = res.size;
-        this.ordination = "desc";
-        this.totalPages = [0];
-
-        for(var i = 1; i < res.totalPages; i++)
-          this.totalPages.push(i);
-
-        if(this.page == 0)
-          this.previous = true;
-        else
-          this.previous = false;
-    
-        if(this.page == this.totalPages.length - 1)
-          this.next = true;
-        else
-          this.next = false;
-
-        for(var i = 0; i < this.totalPages.length; i++){
-          if(document.getElementById(this.totalPages[i].toString())?.innerText != this.page.toString())
-            document.getElementById(this.totalPages[i].toString())?.classList.remove("active");
+      if (this.type == 'all'){
+        this.questionService.getQuestionsByUserId("size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination).subscribe((res) => {
+          this.questions = res.content;
+          this.page = res.number;
+          this.count = res.totalElements;
+          this.pageSize = res.size;
+          this.ordination = "desc";
+          this.totalPages = [0];
+  
+          for(var i = 1; i < res.totalPages; i++)
+            this.totalPages.push(i);
+  
+          if(this.page == 0)
+            this.previous = true;
           else
-            document.getElementById(this.totalPages[i].toString())?.classList.add("active");
-        }
-      }, () => {
-        
-      });
-    }catch (ex: any) {
+            this.previous = false;
       
+          if(this.page == this.totalPages.length - 1)
+            this.next = true;
+          else
+            this.next = false;
+  
+          for(var i = 0; i < this.totalPages.length; i++){
+            if(document.getElementById(this.totalPages[i].toString())?.innerText != this.page.toString())
+              document.getElementById(this.totalPages[i].toString())?.classList.remove("active");
+            else
+              document.getElementById(this.totalPages[i].toString())?.classList.add("active");
+          }
+        }, () => {
+          
+        });
+      } else {
+        this.questionService.getQuestionsByAccepted(this.type, "size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination).subscribe((res) => {
+          this.questions = res.content;
+          this.page = res.number;
+          this.count = res.totalElements;
+          this.pageSize = res.size;
+          this.ordination = "desc";
+          this.totalPages = [0];
+  
+          for(var i = 1; i < res.totalPages; i++)
+            this.totalPages.push(i);
+  
+          if(this.page == 0)
+            this.previous = true;
+          else
+            this.previous = false;
+      
+          if(this.page == this.totalPages.length - 1)
+            this.next = true;
+          else
+            this.next = false;
+  
+          for(var i = 0; i < this.totalPages.length; i++){
+            if(document.getElementById(this.totalPages[i].toString())?.innerText != this.page.toString())
+              document.getElementById(this.totalPages[i].toString())?.classList.remove("active");
+            else
+              document.getElementById(this.totalPages[i].toString())?.classList.add("active");
+          }
+        }, () => {
+          
+        });
+      }
+    } catch (ex: any) {
+        
     }
   }
 
@@ -146,7 +175,7 @@ export class QuestionManagementComponent implements OnInit{
 
   retrieveQuestions(): void{
     try {
-      this.questionService.getQuestionsByAccepted(this.accepted, "size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination)
+      this.questionService.getQuestionsByUserId("size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination)
       .subscribe(
         res => {
           this.questions = res.content;
@@ -154,7 +183,7 @@ export class QuestionManagementComponent implements OnInit{
           this.count = res.totalElements;
           this.pageSize = res.size;
           this.ordination = "desc";
-          this.accepted = false;
+          this.type = 'all';
           this.totalPages = [0];
           
           for(var i = 0; i < res.totalPages; i++)

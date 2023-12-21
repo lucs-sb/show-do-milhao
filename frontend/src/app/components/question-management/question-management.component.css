@@ -35,3 +35,137 @@ h3 {
 p {
     color: white;
 }
+
+#li1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: var(--bg-dark);
+    color: var(--bs-light);
+}
+
+.div-li {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.div-icon {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 13px;
+}
+
+.modal-header{
+    border-bottom-color: black;
+}
+
+.modal-footer{
+    justify-content: center;
+    border-top-color: black;
+}
+
+.form-outline > label{
+    width: 100%;
+    color: black;
+    display: block;
+}
+
+.form-outline > label {
+    color: black;
+}
+
+.input{
+    border: 2px solid black;
+    border-radius: 6px;
+    width: 40%;
+    padding-bottom: 6px;
+    background-color: var(--bs-light);
+}
+
+.input::placeholder{
+    color: var(--bg-dark);
+    padding-left: 8px;
+}
+
+.div-icon > a { 
+    color: inherit; 
+}
+
+#svg-sucess {
+    color: #198754;
+}
+
+#svg-attention {
+    color: #ffc107;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column-reverse;
+    flex-wrap: wrap-reverse;
+}
+
+.page-size{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@media(max-width: 500px) {
+
+    #div-search{
+        padding-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    
+    .div-li {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .div-question{
+        width: 80%;
+    }
+    
+    .div-icon {
+        width: 20%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap-reverse;
+    }
+
+    .page-size{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}

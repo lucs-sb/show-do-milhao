@@ -14,6 +14,7 @@ import { UserComponent } from './components/user/user.component';
 import { HalldafamaComponent } from './components/halldafama/halldafama.component';
 import { QuestionManagementComponent } from './components/question-management/question-management.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { QuestionManagementApprovalComponent } from './components/question-management-approval/question-management-approval.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RegisterComponent,
     UserComponent,
     HalldafamaComponent,
-    QuestionManagementComponent
+    QuestionManagementComponent,
+    QuestionManagementApprovalComponent
   ],
   imports: [
     BrowserModule,
