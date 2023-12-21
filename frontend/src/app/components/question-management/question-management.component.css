@@ -9,25 +9,6 @@
     text-align: center;
 }
 
-.container{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-    grid-template-areas: "select ul";
-}
-
-.page-size{
-    grid-area: select;
-    text-align: end;
-    padding-top: 3px;
-    padding-right: 10px;
-}
-
-.page{
-    grid-area: ul;
-    justify-content: center;
-}
-
 h3 {
     color: white;
 }
@@ -79,14 +60,18 @@ p {
     display: block;
 }
 
-.form-outline > label {
+.form-outline > p {
+    display: flex;
+    align-items: start;
+    justify-content: start;
     color: black;
 }
+
 
 .input{
     border: 2px solid black;
     border-radius: 6px;
-    width: 40%;
+    width: 100%;
     padding-bottom: 6px;
     background-color: var(--bs-light);
 }
@@ -121,6 +106,12 @@ p {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 10px;
+}
+
+.page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media(max-width: 500px) {

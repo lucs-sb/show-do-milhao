@@ -14,6 +14,13 @@ export class QuestionService {
 
   constructor(private http: HttpClient, private localStorage: StorageService) { }
 
+  getQuestionById(id: any) {
+    const HTTP_OPTIONS = {
+      headers: { authorization: 'Bearer ' + this.localStorage.get('authorization') }
+    };
+    return this.http.get<Question>(this.API_URL+`/${id}`, HTTP_OPTIONS); 
+  }
+
   getQuestionByIdAndMatchId(questionId: any, matchId: any) {
     const HTTP_OPTIONS = {
       headers: { authorization: 'Bearer ' + this.localStorage.get('authorization') }
@@ -54,5 +61,12 @@ export class QuestionService {
       headers: { authorization: 'Bearer ' + this.localStorage.get('authorization') }
     };
     return this.http.put<any>(this.API_URL+`/${id}/validate?userId=${this.localStorage.get('user_id')}&validation=${approve}`, HTTP_OPTIONS); 
+  }
+
+  updateQuestion(data: any) {
+    const HTTP_OPTIONS = {
+      headers: { authorization: 'Bearer ' + this.localStorage.get('authorization') }
+    };
+    return this.http.put<any>(this.API_URL, data, HTTP_OPTIONS); 
   }
 }

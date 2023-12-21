@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Question } from 'src/app/entities/question';
 import { QuestionService } from 'src/app/services/question.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -12,15 +12,15 @@ import { StorageService } from 'src/app/services/storage.service';
 export class QuestionManagementComponent implements OnInit{
 
   questions: Question[] = [];
+  question: Question | any;
   search: string = '';
   ordination: string = 'asc';
   type = 'all';
 
-  formUser = this.formBuilder.group({
-    name: '',
-    nickname: '',
-    password: '',
-    url_photo: ''
+  formQuestion = this.formBuilder.group({
+    questionId: '',
+    statement: '',
+    answers: this.formBuilder.array([])
   });
 
   data: any;
@@ -48,6 +48,7 @@ export class QuestionManagementComponent implements OnInit{
       if (this.type == 'all'){
         this.questionService.getQuestionsByUserId("size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination).subscribe((res) => {
           this.questions = res.content;
+          this.question = this.questions[0];
           this.page = res.number;
           this.count = res.totalElements;
           this.pageSize = res.size;
@@ -179,6 +180,7 @@ export class QuestionManagementComponent implements OnInit{
       .subscribe(
         res => {
           this.questions = res.content;
+          this.question = this.questions[0];
           this.page = res.number;
           this.count = res.totalElements;
           this.pageSize = res.size;
@@ -211,5 +213,57 @@ export class QuestionManagementComponent implements OnInit{
     }catch (ex: any) {
       
     }
+  }
+
+  getQuestionById(questionId: any): void{
+    try {
+      this.formQuestion = this.formBuilder.group({
+        questionId: '',
+        statement: '',
+        answers: this.formBuilder.array([])
+      });
+
+      this.questionService.getQuestionById(questionId).subscribe((res) => {
+        this.question = res;
+        this.formQuestion.controls['questionId'].setValue(res.questionId.toString());
+        this.formQuestion.controls['statement'].setValue(res.statement);
+
+        res.answers.forEach(answer => {
+          const formGroupAnswer = this.formBuilder.group({
+            answerId: answer.answerId,
+            description: answer.description,
+            correct: answer.correct
+          });
+
+          this.formAnswers.push(formGroupAnswer);
+        });
+      });
+    } catch (ex: any) {
+      //this.notifier.notify('error', ex);
+    }
+  }
+
+  editQuestion(){
+    try {
+      this.data = this.formQuestion.value;
+      console.log(this.data);
+      this.questionService.updateQuestion(this.data).subscribe(() => {
+        //this.notifier.notify('success', 'Conta editada com sucesso');
+        this.formQuestion = this.formBuilder.group({
+          questionId: '',
+          statement: '',
+          answers: this.formBuilder.array([])
+        });
+        this.retrieveQuestions();
+      }, () => {
+        //this.notifier.notify('error', 'Não foi possível editar a conta no momento, tente novamente mais tarde');
+      });
+    } catch (ex: any) {
+      //this.notifier.notify('error', ex);
+    }
+  }
+
+  get formAnswers(): FormArray {
+    return this.formQuestion.get('answers') as FormArray;
   }
 }

@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-10">
         <div id="div-search" class="input-group mb-3">
-            <select class="ls-custom-select" name="questions" id="questions" [(ngModel)]="type">
+            <select name="questions" id="questions" [(ngModel)]="type">
               <option value="all">tipo de perguntas</option>
               <option value="all">todas</option>
               <option value="true">aceitas</option>
@@ -57,7 +57,7 @@
                 {{question.statement}}
               </div>
               <div class="div-icon">
-                <a routerLink="#" class="btn-icon btn-group" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <a routerLink="#" class="btn-icon btn-group" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getQuestionById(question.questionId)">
                   <svg id="svg-edit" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                   </svg>
@@ -113,32 +113,51 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              <form [formGroup]="formUser" id="form">
+              <form [formGroup]="formQuestion" id="form">
                   
                   <div class="form-outline form-white mb-2">
-                      <label>Nome</label>
-                      <input class="input" type="text" formControlName="name" placeholder="Nome">
+                      <label><strong>Pergunta</strong></label>
+                      <input class="input" type="text" formControlName="statement" placeholder="{{question.statement}}">
                   </div>
           
                   <div class="form-outline form-white mb-2">
-                      <label>Nickname</label>
-                      <input class="input" type="nickname" formControlName="nickname" placeholder="Nickname">
+                      <label><strong>Aprovada?</strong></label>
+                      <ng-container *ngIf="question.accepted">
+                        <p class="card-title text-center">Sim</p>
+                      </ng-container>
+                      <ng-container *ngIf="!question.accepted">
+                        <p class="card-title text-center">Não</p>
+                      </ng-container>
                   </div>
                   
                   <div class="form-outline form-white mb-2">
-                      <label>Redefinir senha</label>
-                      <input class="input" type="password" formControlName="password" placeholder="Senha">
+                      <label><strong>Quantidade de aprovações</strong></label>
+                      <p class="card-title text-center">{{question.amountApprovals}}</p>
                   </div>
                   
                   <div class="form-outline form-white mb-2">  
-                      <label>Avatar</label>
-                      <input class="input" type="text" formControlName="url_photo" placeholder="URL da foto" required>
+                      <label><strong>Quantidade de reprovações</strong></label>
+                      <p class="card-title text-center">{{question.amountFailures}}</p>
+                  </div>
+
+                  <div *ngFor="let answer of formAnswers.controls; let i = index">
+                    <div class="form-outline form-white mb-2" [formGroup]="$any(answer)">
+                      <label><strong>Resposta {{i+1}}</strong></label>
+                      <input class="input" type="text" formControlName="description">
+                    </div>
+                    <div class="form-outline form-white mb-2">
+                      <label><strong>correta?</strong></label>
+                      <ng-container [formGroup]="$any(answer)">
+                        <input type="radio" formControlName="correct" [value]="false" /> Não
+                        <input type="radio" formControlName="correct" [value]="true" /> Sim
+                      </ng-container>
+                    </div>
                   </div>
               </form>
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
-              <button type="button" class="btn btn-outline-warning" style="margin: 5px" (click)="addQuestion()" data-bs-dismiss="modal">Editar</button>
+              <button type="button" class="btn btn-outline-warning" style="margin: 5px" (click)="editQuestion()" data-bs-dismiss="modal">Editar</button>
           </div>
     </div>
   </div>
