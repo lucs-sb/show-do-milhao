@@ -43,6 +43,12 @@ public class QuestionService {
     }
 
     @Transactional(readOnly = true)
+    public Optional<QuestionDTO> findQuestionById(Long questionId){
+        Optional<Question> question = repository.findById(questionId);
+        return Optional.of(new QuestionDTO(question.get(), question.get().getAnswers()));
+    }
+
+    @Transactional(readOnly = true)
     public Page<Question> findQuestionsToApprovals(Long userId, Pageable pageable) {
         return repository.findQuestionsToApprovals(userId, pageable);
     }
