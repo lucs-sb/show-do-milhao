@@ -17,10 +17,33 @@ export class QuestionManagementComponent implements OnInit{
   ordination: string = 'asc';
   type = 'all';
 
-  formQuestion = this.formBuilder.group({
+  formUpdateQuestion = this.formBuilder.group({
     questionId: '',
     statement: '',
     answers: this.formBuilder.array([])
+  });
+
+  formQuestion = this.formBuilder.group({
+    userAccountId: this.localStorage.get("user_id"),
+    statement: ['', [Validators.required]],
+    answers: this.formBuilder.array([
+      this.formBuilder.group({
+        description: ['', [Validators.required]],
+        correct: ['', [Validators.required]]
+      }),
+      this.formBuilder.group({
+        description: ['', [Validators.required]],
+        correct: ['', [Validators.required]]
+      }),
+      this.formBuilder.group({
+        description: ['', [Validators.required]],
+        correct: ['', [Validators.required]]
+      }),
+      this.formBuilder.group({
+        description: ['', [Validators.required]],
+        correct: ['', [Validators.required]]
+      })
+    ])
   });
 
   data: any;
@@ -115,34 +138,39 @@ export class QuestionManagementComponent implements OnInit{
   }
 
   addQuestion(): void{
-    /*try {
-      if(!this.formChampionship.value.name || !this.formChampionship.value.description || !this.formChampionship.value.award || !this.formChampionship.value.teams)
-        this.notifier.notify('error','Preencha todos os campos');
-
-      else if(this.formChampionship.value.teams?.length! < 16)
-        this.notifier.notify('error','Para inicar um novo campeonato é preciso selecionar 16 times');
-
-      else{
-        this.data = this.formChampionship.value;
-        this.championshipService.addChampionship(this.data).subscribe(() => {
-          this.notifier.notify('success', 'Campeonato criado com sucesso');
-          this.formChampionship = this.formBuilder.group({
-            name: ['', [Validators.required]],
-            description: ['', [Validators.required]],
-            award: ['', [Validators.required]],
-            user: this.formBuilder.group({
-              id: this.localStorage.get('user_id')
+    try {
+      this.data = this.formQuestion.value;
+      this.questionService.addQuestion(this.data).subscribe(() => {
+        //this.notifier.notify('success', 'Conta editada com sucesso');
+        this.formQuestion = this.formBuilder.group({
+          userAccountId: this.localStorage.get("user_id"),
+          statement: ['', [Validators.required]],
+          answers: this.formBuilder.array([
+            this.formBuilder.group({
+              description: ['', [Validators.required]],
+              correct: ['', [Validators.required]]
             }),
-            teams: new FormBuilder().array([])
-          });
-          this.retrieveChampionships();
-        }, () => {
-          this.notifier.notify('error', 'Não foi possível criar um novo campeonato no momento, tente novamente mais tarde');
+            this.formBuilder.group({
+              description: ['', [Validators.required]],
+              correct: ['', [Validators.required]]
+            }),
+            this.formBuilder.group({
+              description: ['', [Validators.required]],
+              correct: ['', [Validators.required]]
+            }),
+            this.formBuilder.group({
+              description: ['', [Validators.required]],
+              correct: ['', [Validators.required]]
+            })
+          ])
         });
-      }
-    }catch (ex: any) {
-      this.notifier.notify('error', ex);
-    }*/
+        this.retrieveQuestions();
+      }, () => {
+        //this.notifier.notify('error', 'Não foi possível editar a conta no momento, tente novamente mais tarde');
+      });
+    } catch (ex: any) {
+      //this.notifier.notify('error', ex);
+    }
   }
 
   handlePageChange(event: any): void {
@@ -217,7 +245,7 @@ export class QuestionManagementComponent implements OnInit{
 
   getQuestionById(questionId: any): void{
     try {
-      this.formQuestion = this.formBuilder.group({
+      this.formUpdateQuestion = this.formBuilder.group({
         questionId: '',
         statement: '',
         answers: this.formBuilder.array([])
@@ -225,8 +253,8 @@ export class QuestionManagementComponent implements OnInit{
 
       this.questionService.getQuestionById(questionId).subscribe((res) => {
         this.question = res;
-        this.formQuestion.controls['questionId'].setValue(res.questionId.toString());
-        this.formQuestion.controls['statement'].setValue(res.statement);
+        this.formUpdateQuestion.controls['questionId'].setValue(res.questionId.toString());
+        this.formUpdateQuestion.controls['statement'].setValue(res.statement);
 
         res.answers.forEach(answer => {
           const formGroupAnswer = this.formBuilder.group({
@@ -235,7 +263,7 @@ export class QuestionManagementComponent implements OnInit{
             correct: answer.correct
           });
 
-          this.formAnswers.push(formGroupAnswer);
+          this.formUpdateAnswers.push(formGroupAnswer);
         });
       });
     } catch (ex: any) {
@@ -245,11 +273,11 @@ export class QuestionManagementComponent implements OnInit{
 
   editQuestion(){
     try {
-      this.data = this.formQuestion.value;
+      this.data = this.formUpdateQuestion.value;
       console.log(this.data);
       this.questionService.updateQuestion(this.data).subscribe(() => {
         //this.notifier.notify('success', 'Conta editada com sucesso');
-        this.formQuestion = this.formBuilder.group({
+        this.formUpdateQuestion = this.formBuilder.group({
           questionId: '',
           statement: '',
           answers: this.formBuilder.array([])
@@ -261,6 +289,10 @@ export class QuestionManagementComponent implements OnInit{
     } catch (ex: any) {
       //this.notifier.notify('error', ex);
     }
+  }
+
+  get formUpdateAnswers(): FormArray {
+    return this.formUpdateQuestion.get('answers') as FormArray;
   }
 
   get formAnswers(): FormArray {

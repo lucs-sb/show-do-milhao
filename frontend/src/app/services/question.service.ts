@@ -69,4 +69,11 @@ export class QuestionService {
     };
     return this.http.put<any>(this.API_URL, data, HTTP_OPTIONS); 
   }
+
+  addQuestion(data: any) {
+    const HTTP_OPTIONS = {
+      headers: { authorization: 'Bearer ' + this.localStorage.get('authorization') }
+    };
+    return this.http.post<any>(this.API_URL, data, HTTP_OPTIONS); 
+  }
 }
