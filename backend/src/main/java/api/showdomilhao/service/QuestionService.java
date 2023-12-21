@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -96,6 +95,16 @@ public class QuestionService {
 
     @Transactional
     public void updateQuestion(QuestionDTO newQuestion) {
+        int count = 0;
+
+        for (Answer answer : newQuestion.getAnswers()){
+            if (answer.isCorrect())
+                count++;
+        };
+
+        if (count != 1)
+            throw new MessageBadRequestException("A pergunta deve conter 1 resposta correta");
+
         newQuestion.getAnswers().forEach(x -> {
             Optional<Answer> answer = Optional.ofNullable(answerRepository.findById(x.getAnswerId())
                     .orElseThrow(() -> {
@@ -208,11 +217,9 @@ public class QuestionService {
     private void usersToValidateQuestion(Long questionId, Long userId){
         List<UserAccount> users = userAccountRepository.findUsersByQuestionId(questionId);
         Optional<Question> question = repository.findById(questionId);
-        users.forEach(x -> {
-            x.getValidationQuestions().stream().filter(q -> Objects.equals(q.getQuestionId(), questionId)).forEach(q -> {
-                x.getValidationQuestions().remove(q);
-            });
-            userAccountRepository.save(x);
+        users.forEach(user -> {
+            user.getValidationQuestions().removeIf(questionToValidation -> questionId.equals(questionToValidation.getQuestionId()));
+            userAccountRepository.save(user);
         });
         users = userAccountRepository.findUsersToValidateQuestion(userId);
         users.forEach(x -> {
