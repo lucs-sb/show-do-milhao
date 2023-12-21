@@ -43,8 +43,8 @@ public class QuestionService {
     }
 
     @Transactional(readOnly = true)
-    public List<Question> findQuestionsToApprovals(Long userId) {
-        return repository.findQuestionsToApprovals(userId);
+    public Page<Question> findQuestionsToApprovals(Long userId, Pageable pageable) {
+        return repository.findQuestionsToApprovals(userId, pageable);
     }
 
     @Transactional

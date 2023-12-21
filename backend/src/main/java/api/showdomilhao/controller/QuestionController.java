@@ -81,9 +81,9 @@ public class QuestionController {
     })
     @GetMapping("/user/{userId}/approval")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity<List<Question>> findQuestionsToApprovals(@PathVariable Long userId) throws Exception{
+    public ResponseEntity<Page<Question>> findQuestionsToApprovals(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC, sort = "question_id") Pageable pageable, @PathVariable Long userId) throws Exception{
         try {
-            List<Question> questions = service.findQuestionsToApprovals(userId);
+            Page<Question> questions = service.findQuestionsToApprovals(userId, pageable);
             return new ResponseEntity<>(questions, HttpStatus.OK);
         }catch (Exception ex){
             throw new Exception(ex);

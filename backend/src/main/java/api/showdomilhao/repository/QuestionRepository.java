@@ -28,7 +28,7 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
     @Query(value = "SELECT q.* FROM tb_question AS q " +
             "INNER JOIN tb_validation_question_user AS vqu ON q.question_id = vqu.question_id " +
             "WHERE vqu.user_id = :userId", nativeQuery = true)
-    List<Question> findQuestionsToApprovals(Long userId);
+    Page<Question> findQuestionsToApprovals(Long userId, Pageable pageable);
 
     @Query(value = "SELECT * FROM tb_question WHERE accepted = 1" +
             " ORDER BY RAND() LIMIT 7", nativeQuery = true)
