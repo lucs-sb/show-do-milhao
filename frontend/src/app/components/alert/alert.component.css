@@ -1,0 +1,9 @@
+.alert-father{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alert{
+    width: 50%;
+}

@@ -15,6 +15,7 @@ import { HalldafamaComponent } from './components/halldafama/halldafama.componen
 import { QuestionManagementComponent } from './components/question-management/question-management.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { QuestionManagementApprovalComponent } from './components/question-management-approval/question-management-approval.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { QuestionManagementApprovalComponent } from './components/question-manag
     UserComponent,
     HalldafamaComponent,
     QuestionManagementComponent,
-    QuestionManagementApprovalComponent
+    QuestionManagementApprovalComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
