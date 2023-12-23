@@ -57,9 +57,14 @@ public class QuestionService {
         if (newQuestion.getAnswers().size() != 4)
             throw new MessageBadRequestException("A pergunta deve conter 4 respostas");
 
+        if (newQuestion.getStatement().isBlank() || newQuestion.getStatement().isEmpty())
+            throw new MessageBadRequestException("A pergunta é obrigatório");
+
         int count = 0;
 
         for (Answer answer : newQuestion.getAnswers()){
+            if (answer.getDescription().isBlank() || answer.getDescription().isEmpty())
+                throw new MessageBadRequestException("A pergunta deve conter 4 respostas");
             if (answer.isCorrect())
                 count++;
         };
