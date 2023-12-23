@@ -71,7 +71,6 @@ export class QuestionManagementComponent implements OnInit{
       if (this.type == 'all'){
         this.questionService.getQuestionsByUserId("size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination).subscribe((res) => {
           this.questions = res.content;
-          this.question = this.questions[0];
           this.page = res.number;
           this.count = res.totalElements;
           this.pageSize = res.size;

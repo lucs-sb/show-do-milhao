@@ -30,7 +30,7 @@ h3 {
     color: white;
 }
 
-p {
+.page-size > p {
     color: white;
 }
 
@@ -71,6 +71,19 @@ p {
     --bs-btn-padding-y: .150rem;
 }
 
+.div-icon > a { 
+    color: inherit; 
+}
+
+.modal-header{
+    border-bottom-color: black;
+}
+
+.modal-footer{
+    justify-content: center;
+    border-top-color: black;
+}
+
 @media(max-width: 500px) {
 
     #div-search{
@@ -92,11 +105,11 @@ p {
     }
 
     .div-question{
-        width: 80%;
+        width: 60%;
     }
     
     .div-icon {
-        width: 20%;
+        width: 40%;
         display: flex;
         align-items: center;
         justify-content: center;

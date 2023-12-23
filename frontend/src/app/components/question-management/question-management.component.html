@@ -65,7 +65,7 @@
         </ng-container>
       </ul>
     </div>
-    <div class="mt-3 container">
+    <div class="mt-3 container" *ngIf="questions.length">
       <div class="page-size">
         <p>Itens por busca:</p>
         <select (change)="handlePageSizeChange($event)">
@@ -110,27 +110,27 @@
                   
                   <div class="form-outline form-white mb-2">
                       <label><strong>Pergunta</strong></label>
-                      <input class="input" type="text" formControlName="statement" placeholder="{{question.statement}}">
+                      <input class="input" type="text" formControlName="statement" placeholder="{{question?.statement}}">
                   </div>
           
                   <div class="form-outline form-white mb-2">
                       <label><strong>Aprovada?</strong></label>
-                      <ng-container *ngIf="question.accepted">
+                      <ng-container *ngIf="question?.accepted">
                         <p class="card-title text-center">Sim</p>
                       </ng-container>
-                      <ng-container *ngIf="!question.accepted">
+                      <ng-container *ngIf="!question?.accepted">
                         <p class="card-title text-center">Não</p>
                       </ng-container>
                   </div>
                   
                   <div class="form-outline form-white mb-2">
                       <label><strong>Quantidade de aprovações</strong></label>
-                      <p class="card-title text-center">{{question.amountApprovals}}</p>
+                      <p class="card-title text-center">{{question?.amountApprovals}}</p>
                   </div>
                   
                   <div class="form-outline form-white mb-2">  
                       <label><strong>Quantidade de reprovações</strong></label>
-                      <p class="card-title text-center">{{question.amountFailures}}</p>
+                      <p class="card-title text-center">{{question?.amountFailures}}</p>
                   </div>
 
                   <div *ngFor="let answer of formUpdateAnswers.controls; let i = index">

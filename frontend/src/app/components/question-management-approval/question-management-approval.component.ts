@@ -3,6 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { QuestionService } from 'src/app/services/question.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Question } from 'src/app/entities/question';
+import { FormArray, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-question-management-approval',
@@ -12,6 +13,8 @@ import { Question } from 'src/app/entities/question';
 export class QuestionManagementApprovalComponent {
 
   questions: Question[] = [];
+
+  question: Question | any;
 
   currentIndex = -1;
   page = 0;
@@ -24,6 +27,7 @@ export class QuestionManagementApprovalComponent {
 
   constructor(private questionService: QuestionService,  
     private localStorage: StorageService,
+    private formBuilder: FormBuilder,
     private location: Location) { }
 
   ngOnInit(): void {
@@ -109,5 +113,13 @@ export class QuestionManagementApprovalComponent {
 
   goBack(): void {
     this.location.back();
+  }
+
+  getQuestionById(questionId: any): void{
+    try {
+      this.questionService.getQuestionById(questionId).subscribe((res) => this.question = res);
+    } catch (ex: any) {
+      //this.notifier.notify('error', ex);
+    }
   }
 }
