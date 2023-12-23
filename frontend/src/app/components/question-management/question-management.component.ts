@@ -63,6 +63,7 @@ export class QuestionManagementComponent implements OnInit{
 
   ngOnInit(): void {
     this.retrieveQuestions();
+    this.getQuestionsToApproval();
   }
 
   searchQuestions(){
@@ -296,5 +297,19 @@ export class QuestionManagementComponent implements OnInit{
 
   get formAnswers(): FormArray {
     return this.formQuestion.get('answers') as FormArray;
+  }
+
+  getQuestionsToApproval(): void{
+    try {
+      this.questionService.getQuestionsToApprovals("size=10&page=0")
+      .subscribe(
+        res => {
+          document.getElementById("btn-validation")?.setAttribute("data-count", res.totalElements.toString());
+        }, () => {
+          
+        });
+    }catch (ex: any) {
+      
+    }
   }
 }
