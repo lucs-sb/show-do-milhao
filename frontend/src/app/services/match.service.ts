@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Match } from '../entities/match';
-import { API_URL_DEFAULT } from '../env/environment'
+import { environment } from '../environment/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class MatchService {
-  private API_URL = API_URL_DEFAULT + 'match';
+  private API_URL = environment.API_URL_DEFAULT + 'match';
 
   constructor(private http: HttpClient, private localStorage: StorageService) { }
 

@@ -4,13 +4,13 @@ import { StorageService } from './storage.service';
 import { User } from '../entities/user';
 import { Login } from '../entities/login';
 import { Router } from '@angular/router';
-import { API_URL_DEFAULT } from '../env/environment'
+import { environment } from '../environment/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private API_URL = API_URL_DEFAULT + 'user';
+  private API_URL = environment.API_URL_DEFAULT + 'user';
 
   constructor(private http: HttpClient, 
     private localStorage: StorageService, 

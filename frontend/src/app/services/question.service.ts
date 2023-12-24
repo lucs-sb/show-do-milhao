@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { Question } from '../entities/question';
 import { StorageService } from './storage.service';
 import { Pagination } from '../entities/pagination';
-import { API_URL_DEFAULT } from '../env/environment'
+import { environment } from '../environment/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionService {
 
-  private API_URL = API_URL_DEFAULT + 'question';
+  private API_URL = environment.API_URL_DEFAULT + 'question';
 
   constructor(private http: HttpClient, private localStorage: StorageService) { }
 
