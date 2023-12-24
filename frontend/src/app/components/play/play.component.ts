@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Answer } from 'src/app/entities/answer';
 import { Match } from 'src/app/entities/match';
 import { Question } from 'src/app/entities/question';
+import { AlertService } from 'src/app/services/alert.service';
 import { MatchService } from 'src/app/services/match.service';
 import { QuestionService } from 'src/app/services/question.service';
 import { StorageService } from 'src/app/services/storage.service';
@@ -33,6 +34,7 @@ export class PlayComponent implements OnInit {
     private matchService: MatchService, 
     private questionService: QuestionService,
     private router: Router,
+    private notifier: AlertService,
     private localStorage: StorageService) { }
 
   ngOnInit(): void {
@@ -57,10 +59,10 @@ export class PlayComponent implements OnInit {
           });
       }, () => {
         this.router.navigate(['/home']);
-        //this.notifier.notify('error', 'Algo inesperado aconteceu');
+        this.notifier.warn('Algo inesperado aconteceu');
       }); 
     }catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 
@@ -128,10 +130,10 @@ export class PlayComponent implements OnInit {
           this.router.navigate(['/home']);
         }
         }, () => {
-          //this.notifier.notify('error', 'Algo inesperado aconteceu');
+          this.notifier.warn('Algo inesperado aconteceu');
         }); 
     }catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 
@@ -163,10 +165,10 @@ export class PlayComponent implements OnInit {
           //this.notifier.notify('error', 'Reposta errada');
           this.router.navigate(['/home']);
         }, () => {
-          //this.notifier.notify('error', 'Algo inesperado aconteceu');
+          this.notifier.warn('Algo inesperado aconteceu');
         });  
     }catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 

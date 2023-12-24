@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { QuestionService } from 'src/app/services/question.service';
-import { StorageService } from 'src/app/services/storage.service';
 import { Question } from 'src/app/entities/question';
-import { FormArray, FormBuilder } from '@angular/forms';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-question-management-approval',
@@ -26,8 +25,7 @@ export class QuestionManagementApprovalComponent {
   previous = true;
 
   constructor(private questionService: QuestionService,  
-    private localStorage: StorageService,
-    private formBuilder: FormBuilder,
+    private notifier: AlertService,
     private location: Location) { }
 
   ngOnInit(): void {
@@ -39,9 +37,11 @@ export class QuestionManagementApprovalComponent {
       this.questionService.validateQuestion(questionId, approve).subscribe(() => {
         this.getQuestionsToApproval();
       }, () => {
-        
+        this.notifier.warn('Não foi possível validar a pergunta no momento, tente novamente mais tarde!');
       });
-    }catch (ex: any) {}
+    }catch (ex: any) {
+      this.notifier.error(ex);
+    }
   }
 
   handlePageChange(event: any): void {
@@ -104,10 +104,10 @@ export class QuestionManagementApprovalComponent {
               document.getElementById(this.totalPages[i].toString())?.classList.add("active");
           }
         }, () => {
-          
+          this.notifier.warn('Algo inesperado aconteceu');
         });
     }catch (ex: any) {
-      
+      this.notifier.error(ex);
     }
   }
 
@@ -119,7 +119,7 @@ export class QuestionManagementApprovalComponent {
     try {
       this.questionService.getQuestionById(questionId).subscribe((res) => this.question = res);
     } catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 }

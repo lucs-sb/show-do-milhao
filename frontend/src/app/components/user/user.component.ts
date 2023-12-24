@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/entities/user';
+import { AlertService } from 'src/app/services/alert.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -23,6 +24,7 @@ export class UserComponent implements OnInit {
 
    constructor(private userService: UserService, 
     private formBuilder: FormBuilder, 
+    private notifier: AlertService,
     private localStorage: StorageService,
     private router: Router) { }
 
@@ -34,7 +36,7 @@ export class UserComponent implements OnInit {
     try {
       this.userService.getUserById(this.localStorage.get("user_id")).subscribe((res) => (this.user = res));
     } catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 
@@ -44,7 +46,7 @@ export class UserComponent implements OnInit {
         this.data = this.formUser.value;
 
         this.userService.updateUser(this.data, this.localStorage.get("user_id")).subscribe(() => {
-          //this.notifier.notify('success', 'Conta editada com sucesso');
+          this.notifier.success('Conta editada com sucesso');
           this.formUser = this.formBuilder.group({
             name: '',
             nickname: '',
@@ -53,12 +55,12 @@ export class UserComponent implements OnInit {
           });
           this.getUserById();
         }, () => {
-          //this.notifier.notify('error', 'Não foi possível editar a conta no momento, tente novamente mais tarde');
+          this.notifier.warn('Não foi possível editar a conta no momento, tente novamente mais tarde');
         });
-      }//else
-        //this.notifier.notify('error','Preencha algum campo');
+      }else
+        this.notifier.info('Preencha algum campo');
     } catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 
@@ -67,10 +69,10 @@ export class UserComponent implements OnInit {
       this.userService.deleteUser(this.localStorage.get("user_id")).subscribe(() => {
         this.router.navigate(['/login']);
       }, () => {
-        //this.notifier.notify('error', 'Não foi possível deletar sua conta no momento, tente novamente mais tarde');
+        this.notifier.warn('Não foi possível deletar sua conta no momento, tente novamente mais tarde');
       });
     } catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 }

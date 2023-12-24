@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 import { MatchService } from 'src/app/services/match.service';
 import { StorageService } from 'src/app/services/storage.service';
 
@@ -13,6 +14,7 @@ export class HomeComponent implements OnInit  {
   constructor( 
     private matchService: MatchService,
     private localStorage: StorageService,
+    private notifier: AlertService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -24,11 +26,11 @@ export class HomeComponent implements OnInit  {
           this.localStorage.set('match_id', response.toString());
           this.router.navigate(['/play']);
         }, (error) => {
-          //this.notifier.notify('error', 'Tente novamente mais tarde');
+          this.notifier.warn('Tente novamente mais tarde');
         });
     }
     catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 }

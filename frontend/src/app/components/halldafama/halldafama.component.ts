@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/entities/user';
+import { AlertService } from 'src/app/services/alert.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class HalldafamaComponent implements OnInit {
 
   users?: User[];
 
-   constructor(private userService: UserService) { }
+   constructor(private userService: UserService, private notifier: AlertService) { }
 
   ngOnInit(): void {
     this.getHallDaFama();
@@ -21,7 +22,7 @@ export class HalldafamaComponent implements OnInit {
     try {
       this.userService.getHallDaFama().subscribe((res) => (this.users = res));
     } catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 

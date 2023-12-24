@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Question } from 'src/app/entities/question';
+import { AlertService } from 'src/app/services/alert.service';
 import { QuestionService } from 'src/app/services/question.service';
 import { StorageService } from 'src/app/services/storage.service';
 
@@ -59,6 +60,7 @@ export class QuestionManagementComponent implements OnInit{
 
   constructor(private questionService: QuestionService, 
     private formBuilder: FormBuilder, 
+    private notifier: AlertService,
     private localStorage: StorageService) { }
 
   ngOnInit(): void {
@@ -98,7 +100,7 @@ export class QuestionManagementComponent implements OnInit{
               document.getElementById(this.totalPages[i].toString())?.classList.add("active");
           }
         }, () => {
-          
+          this.notifier.warn('Algo inesperado aconteceu');
         });
       } else {
         this.questionService.getQuestionsByAccepted(this.type, "size="+this.pageSize+"&page="+this.page+"&sort="+this.ordination).subscribe((res) => {
@@ -129,11 +131,11 @@ export class QuestionManagementComponent implements OnInit{
               document.getElementById(this.totalPages[i].toString())?.classList.add("active");
           }
         }, () => {
-          
+          this.notifier.warn('Algo inesperado aconteceu');
         });
       }
     } catch (ex: any) {
-        
+      this.notifier.error(ex);
     }
   }
 
@@ -141,7 +143,7 @@ export class QuestionManagementComponent implements OnInit{
     try {
       this.data = this.formQuestion.value;
       this.questionService.addQuestion(this.data).subscribe(() => {
-        //this.notifier.notify('success', 'Conta editada com sucesso');
+        this.notifier.success('Pergunta criado com sucesso, espere a aprovação da comunidade.');
         this.formQuestion = this.formBuilder.group({
           userAccountId: this.localStorage.get("user_id"),
           statement: ['', [Validators.required]],
@@ -166,10 +168,10 @@ export class QuestionManagementComponent implements OnInit{
         });
         this.retrieveQuestions();
       }, () => {
-        //this.notifier.notify('error', 'Não foi possível editar a conta no momento, tente novamente mais tarde');
+        this.notifier.warn('Não foi possível adicionar a pergunta no momento, tente novamente mais tarde');
       });
     } catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 
@@ -236,10 +238,10 @@ export class QuestionManagementComponent implements OnInit{
               document.getElementById(this.totalPages[i].toString())?.classList.add("active");
           }
         }, () => {
-          
+          this.notifier.warn('Algo inesperado aconteceu');
         });
     }catch (ex: any) {
-      
+      this.notifier.error(ex);
     }
   }
 
@@ -265,9 +267,11 @@ export class QuestionManagementComponent implements OnInit{
 
           this.formUpdateAnswers.push(formGroupAnswer);
         });
+      }, () => {
+        this.notifier.warn('Algo inesperado aconteceu');
       });
     } catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 
@@ -276,7 +280,7 @@ export class QuestionManagementComponent implements OnInit{
       this.data = this.formUpdateQuestion.value;
       console.log(this.data);
       this.questionService.updateQuestion(this.data).subscribe(() => {
-        //this.notifier.notify('success', 'Conta editada com sucesso');
+        this.notifier.success('Pergunta editada com sucesso, espere a aprovação da comunidade.');
         this.formUpdateQuestion = this.formBuilder.group({
           questionId: '',
           statement: '',
@@ -284,10 +288,10 @@ export class QuestionManagementComponent implements OnInit{
         });
         this.retrieveQuestions();
       }, () => {
-        //this.notifier.notify('error', 'Não foi possível editar a conta no momento, tente novamente mais tarde');
+        this.notifier.warn('Não foi possível editar a pergunta no momento, tente novamente mais tarde');
       });
     } catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 
@@ -307,9 +311,11 @@ export class QuestionManagementComponent implements OnInit{
           document.getElementById("btn-validation")?.setAttribute("data-count", res.totalElements.toString());
         }, () => {
           
+        }, () => {
+          this.notifier.warn('Algo inesperado aconteceu');
         });
     }catch (ex: any) {
-      
+      this.notifier.error(ex);
     }
   }
 }

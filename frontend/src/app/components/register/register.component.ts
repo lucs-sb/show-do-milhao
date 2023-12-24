@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -22,6 +23,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private registerService: UserService, 
     private formBuilder: FormBuilder,
+    private notifier: AlertService,
     private storage: StorageService,
     private router: Router) { }
 
@@ -31,7 +33,7 @@ export class RegisterComponent implements OnInit {
   register(): void{
     try {
       if(!this.formUser.value.name || !this.formUser.value.nickname || !this.formUser.value.password)
-        //this.notifier.notify('error','Preencha todos os campos obrigatórios');
+        this.notifier.info('Preencha todos os campos obrigatórios');
 
       this.data = this.formUser.value;
       this.registerService.addUser(this.data).subscribe(() => {
@@ -39,10 +41,10 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/']);
       }, () => {
         this.storage.logoutUser();
-        //this.notifier.notify('error', 'Não foi possível realizar o cadastro no momento, tente novamente mais tarde');
+        this.notifier.warn('Não foi possível realizar o cadastro no momento, tente novamente mais tarde');
       });
     }catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 

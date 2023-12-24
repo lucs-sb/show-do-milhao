@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../../services/storage.service';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,6 +16,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private storage: StorageService, 
     private userService: UserService, 
+    private notifier: AlertService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -31,7 +33,7 @@ export class NavbarComponent implements OnInit {
         this.router.navigate(['/']);
       }); 
     }catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 

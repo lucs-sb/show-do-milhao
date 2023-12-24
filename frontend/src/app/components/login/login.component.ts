@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -17,21 +18,23 @@ export class LoginComponent implements OnInit {
 
 
     constructor(private loginService: UserService, 
-    private formBuilder: FormBuilder,
-    private router: Router) { }
+      private notifier: AlertService,
+      private formBuilder: FormBuilder,
+      private router: Router
+    ) { }
 
   ngOnInit(): void {
   }
 
   login() {
     try {
-      //if(!this.formUser.value.email || !this.formUser.value.password)
-        //this.notifier.notify('error','Preencha todos os campos');
+      if(!this.formUser.value.email || !this.formUser.value.password)
+        this.notifier.error('Preencha todos os campos');
 
       this.loginService.login(this.formUser.value.email, this.formUser.value.password);
     }
     catch (ex: any) {
-      //this.notifier.notify('error', ex);
+      this.notifier.error(ex);
     }
   }
 
