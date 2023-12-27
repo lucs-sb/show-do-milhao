@@ -2,6 +2,10 @@
     padding-top: 20px;
 }
 
+#nav{
+    position: relative;
+}
+
 @media(max-width: 1000px){
     #offcanvasDarkNavbar{
         width: 200px;

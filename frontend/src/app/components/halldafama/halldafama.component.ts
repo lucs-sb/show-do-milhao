@@ -35,5 +35,5 @@ export class HalldafamaComponent implements OnInit {
     }
 
     return novo;
-}
+  }
 }

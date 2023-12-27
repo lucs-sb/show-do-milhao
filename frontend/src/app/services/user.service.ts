@@ -5,6 +5,7 @@ import { User } from '../entities/user';
 import { Login } from '../entities/login';
 import { Router } from '@angular/router';
 import { environment } from '../environment/environment'
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class UserService {
 
   constructor(private http: HttpClient, 
     private localStorage: StorageService, 
+    private notifier: AlertService,
     private router: Router) { }
 
   login(username: any, password: any) {
@@ -28,7 +30,9 @@ export class UserService {
         this.localStorage.set('authorization', res.token);
         this.localStorage.set('user_id', res.user_id);
         this.router.navigate(['/home']);
-      }, () => {
+        this.notifier.success('Login efetuado com sucesso');
+      }, (error) => {
+        this.notifier.warn('Informações inválidas');
       });
   }
 

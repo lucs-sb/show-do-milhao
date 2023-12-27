@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Answer } from 'src/app/entities/answer';
 import { Match } from 'src/app/entities/match';
 import { Question } from 'src/app/entities/question';
+import { environment } from 'src/app/environment/environment';
 import { AlertService } from 'src/app/services/alert.service';
 import { MatchService } from 'src/app/services/match.service';
 import { QuestionService } from 'src/app/services/question.service';
 import { StorageService } from 'src/app/services/storage.service';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-play',
@@ -29,16 +31,32 @@ export class PlayComponent implements OnInit {
   info: string[] = ['', '', ''];
   lastQuestionAnswered: number = 0;
   isDeleted?: Boolean;
+  award: number = 0;
+  intervalID: any;
+  timeLeft: number = 30;
+  message: string = '';
+  endedAward: string = '';
 
+  @ViewChild('ending') modal?: ElementRef;
+  
   constructor(
     private matchService: MatchService, 
     private questionService: QuestionService,
     private router: Router,
     private notifier: AlertService,
+    public dialog: MatDialog,
     private localStorage: StorageService) { }
 
   ngOnInit(): void {
+    this.timeLeft = environment.timePerQuestion;
     this.getMatchById();
+    this.intervalID = setInterval(() => {
+      if(--this.timeLeft === 0) {
+        clearInterval(this.intervalID);
+        this.finish('Seu tempo acabou!', this.award);
+        return;
+      }
+    }, 1000);
   }
 
   getMatchById(): void{
@@ -68,13 +86,12 @@ export class PlayComponent implements OnInit {
 
   respond(answer: Answer): void{
     try {
-      var award;
       var ended;
       var lastQuestionAnswered;
-      var reasonForClosing;
+      var reasonForClosing = '';
 
       if(answer.correct && this.lastQuestionAnswered == 6){
-        award = 1000000;
+        this.award = 1000000;
         ended = true;
         lastQuestionAnswered = this.lastQuestionAnswered;
         reasonForClosing = 'Ganhou';
@@ -86,11 +103,11 @@ export class PlayComponent implements OnInit {
       else{
         lastQuestionAnswered = this.lastQuestionAnswered;
         if(lastQuestionAnswered == 0 || lastQuestionAnswered == 6)
-          award = 0;
+        this.award = 0;
         else if(lastQuestionAnswered == 1)
-          award = 500;
+        this.award = 500;
         else{
-          award = Number.parseInt(this.info[2].split(' ')[2]) * 1000;
+          this.award = Number.parseInt(this.info[2].split(' ')[2]) * 1000;
         }
 
         ended = true;
@@ -104,7 +121,7 @@ export class PlayComponent implements OnInit {
       const body = {
         matchId: this.match?.matchId,
         user: user,
-        award: award,
+        award: this.award,
         ended: ended,
         lastQuestionAnswered: lastQuestionAnswered + 1,
         deletedAnswers: this.isDeleted,
@@ -124,26 +141,30 @@ export class PlayComponent implements OnInit {
               });
           });
         }
+        else if (reasonForClosing == 'Ganhou'){
+          this.finish('Você ganhou!', this.award);
+        }
         else{
           //TODO uma mensagem dizendo que perdeu
           //this.notifier.notify('error', 'Reposta errada');
-          this.router.navigate(['/home']);
+          //this.router.navigate(['/home']);
+          this.finish('Você perdeu!', this.award);
         }
         }, () => {
           this.notifier.warn('Algo inesperado aconteceu');
         }); 
     }catch (ex: any) {
+      this.router.navigate(['/home']);
       this.notifier.error(ex);
     }
   }
 
   stop(): void{
     try {
-      var award;
       if(this.lastQuestionAnswered == 0)
-        award = 0;
+        this.award = 0;
       else{
-        award = Number.parseInt(this.info[1].split(' ')[1]) * 1000;
+        this.award = Number.parseInt(this.info[1].split(' ')[1]) * 1000;
       }
 
       const user = {
@@ -153,7 +174,7 @@ export class PlayComponent implements OnInit {
       const body = {
         matchId: this.match?.matchId,
         user: user,
-        award: award,
+        award: this.award,
         ended: true,
         lastQuestionAnswered: this.lastQuestionAnswered++,
         deletedAnswers: this.isDeleted,
@@ -163,11 +184,14 @@ export class PlayComponent implements OnInit {
       this.matchService.updateMatch(body).subscribe(() => {
           //TODO uma mensagem dizendo que parou
           //this.notifier.notify('error', 'Reposta errada');
-          this.router.navigate(['/home']);
+          //this.router.navigate(['/home']);
+          this.finish('Você parou!', this.award);
         }, () => {
+          this.router.navigate(['/home']);
           this.notifier.warn('Algo inesperado aconteceu');
         });  
     }catch (ex: any) {
+      this.router.navigate(['/home']);
       this.notifier.error(ex);
     }
   }
@@ -210,5 +234,39 @@ export class PlayComponent implements OnInit {
 
   report(): void{
     this.questionService.reportQuestion(this.question?.questionId, true).subscribe();
+  }
+
+  finish(message: string, award: number) {
+    this.message = message;
+    this.endedAward = 'R$ ' + this.mask(award.toString());
+
+    console.log(this.modal?.nativeElement)
+  }
+
+  newMatch(): void{
+    try {
+        this.matchService.startNewMatch().subscribe((response) => {
+          this.localStorage.set('match_id', response.toString());
+          this.getMatchById();
+        }, (error) => {
+          this.router.navigate(['/home']);
+          this.notifier.warn('Tente novamente mais tarde');
+        });
+    }
+    catch (ex: any) {
+      this.router.navigate(['/home']);
+      this.notifier.error(ex);
+    }
+  }
+
+  mask(n: string){
+    var n = ''+n, t = n.length -1, novo = '';
+
+    for( var i = t, a = 1; i >=0; i--, a++ ){
+        var ponto = a % 3 == 0 && i > 0 ? '.' : '';
+        novo = ponto + n.charAt(i) + novo;
+    }
+
+    return novo;
   }
 }
