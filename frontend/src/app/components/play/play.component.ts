@@ -8,7 +8,6 @@ import { AlertService } from 'src/app/services/alert.service';
 import { MatchService } from 'src/app/services/match.service';
 import { QuestionService } from 'src/app/services/question.service';
 import { StorageService } from 'src/app/services/storage.service';
-import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-play',
@@ -33,25 +32,27 @@ export class PlayComponent implements OnInit {
   isDeleted?: Boolean;
   award: number = 0;
   intervalID: any;
-  timeLeft: number = 30;
+  timeLeft: number = environment.timePerQuestion;
   message: string = '';
   endedAward: string = '';
-
-  @ViewChild('ending') modal?: ElementRef;
+  isHidden = true;
   
   constructor(
     private matchService: MatchService, 
     private questionService: QuestionService,
     private router: Router,
     private notifier: AlertService,
-    public dialog: MatDialog,
     private localStorage: StorageService) { }
 
   ngOnInit(): void {
-    this.timeLeft = environment.timePerQuestion;
     this.getMatchById();
     this.intervalID = setInterval(() => {
-      if(--this.timeLeft === 0) {
+      if (this.isHidden)
+        this.timeLeft--;
+      else
+        clearInterval(this.intervalID);
+
+      if(this.timeLeft === 0 && this.isHidden) {
         clearInterval(this.intervalID);
         this.finish('Seu tempo acabou!', this.award);
         return;
@@ -89,6 +90,7 @@ export class PlayComponent implements OnInit {
       var ended;
       var lastQuestionAnswered;
       var reasonForClosing = '';
+      this.timeLeft = environment.timePerQuestion;
 
       if(answer.correct && this.lastQuestionAnswered == 6){
         this.award = 1000000;
@@ -233,14 +235,14 @@ export class PlayComponent implements OnInit {
   }
 
   report(): void{
-    this.questionService.reportQuestion(this.question?.questionId, true).subscribe();
+    this.questionService.reportQuestion(this.question?.questionId).subscribe();
   }
 
   finish(message: string, award: number) {
     this.message = message;
     this.endedAward = 'R$ ' + this.mask(award.toString());
 
-    console.log(this.modal?.nativeElement)
+    this.isHidden = false;
   }
 
   newMatch(): void{
@@ -248,6 +250,20 @@ export class PlayComponent implements OnInit {
         this.matchService.startNewMatch().subscribe((response) => {
           this.localStorage.set('match_id', response.toString());
           this.getMatchById();
+          this.isHidden = true;
+          this.timeLeft = environment.timePerQuestion;
+          this.intervalID = setInterval(() => {
+            if (this.isHidden)
+              this.timeLeft--;
+            else
+              clearInterval(this.intervalID);
+      
+            if(this.timeLeft === 0 && this.isHidden) {
+              clearInterval(this.intervalID);
+              this.finish('Seu tempo acabou!', this.award);
+              return;
+            }
+          }, 1000);
         }, (error) => {
           this.router.navigate(['/home']);
           this.notifier.warn('Tente novamente mais tarde');

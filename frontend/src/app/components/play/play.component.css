@@ -159,6 +159,23 @@
     width: 48%;
 }
 
+.time{
+    color: white;
+    border: 2px solid var(--bs-light);
+    height: 50px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 5%;
+    right: 10%;
+    width: 5%;
+}
+
+.modal {
+    display: block;
+}
+
 @media(max-width: 1000px){
 
     .answer{
@@ -236,6 +253,10 @@
         color: var(--bs-light);
         height: 60%;
         width: 200px;
+    }
+
+    .time{
+        width: 20%;
     }
 }
 

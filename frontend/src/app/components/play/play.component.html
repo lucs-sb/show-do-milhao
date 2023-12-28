@@ -13,6 +13,7 @@
         </div>
     </div>
     <div class="div-info">
+        <div class="time">{{timeLeft}} seg</div>
         <div class="infos">
             <div class="infos1">
                 <div><h3>Acertar </h3><p>{{info[0]}}</p></div>
@@ -25,21 +26,21 @@
     </div>
 </div>
 
-<div class="modal" tabindex="-1" #ending>
+<div class="modal" id="exampleModal" tabindex="-1" [hidden]="isHidden">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Fim de Jogo!</h5>
+          <p class="modal-title">Fim de Jogo!</p>
           <a type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" routerLink="/home"></a>
         </div>
         <div class="modal-body">
           <p>{{message}}</p>
-          <h2>Você ganhou {{endedAward}} reais</h2>
+          <p>Você ganhou {{endedAward}} reais</p>
         </div>
         <div class="modal-footer">
-          <a class="btn btn-secondary" type="button" routerLink="/home">Fechar</a>
-          <button type="button" class="btn btn-primary" (click)="newMatch()">Iniciar um novo jogo</button>
+          <a class="btn btn-secondary" type="button" data-bs-dismiss="modal" routerLink="/home">Fechar</a>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="newMatch()">Iniciar um novo jogo</button>
         </div>
       </div>
     </div>
-  </div>
+</div>

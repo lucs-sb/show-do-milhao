@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Question } from '../entities/question';
 import { StorageService } from './storage.service';
 import { Pagination } from '../entities/pagination';
-import { environment } from '../environment/environment'
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +28,11 @@ export class QuestionService {
     return this.http.get<Question>(this.API_URL+`/${questionId}/match/${matchId}`, HTTP_OPTIONS); 
   }
 
-  reportQuestion(id: any, isReport: any) {
+  reportQuestion(id: any) {
     const HTTP_OPTIONS = {
       headers: { authorization: 'Bearer ' + this.localStorage.get('authorization') }
     };
-    return this.http.put<any>(this.API_URL+`/${id}?isReport=${isReport}`, HTTP_OPTIONS); 
+    return this.http.put<any>(this.API_URL+`/${id}/report`, HTTP_OPTIONS); 
   }
 
   getQuestionsByUserId(ordination: any) {
