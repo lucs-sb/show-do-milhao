@@ -310,8 +310,6 @@ export class QuestionManagementComponent implements OnInit{
         res => {
           document.getElementById("btn-validation")?.setAttribute("data-count", res.totalElements.toString());
         }, () => {
-          
-        }, () => {
           this.notifier.warn('Algo inesperado aconteceu');
         });
     }catch (ex: any) {
