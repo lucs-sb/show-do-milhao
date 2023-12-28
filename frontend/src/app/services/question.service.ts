@@ -32,7 +32,7 @@ export class QuestionService {
     const HTTP_OPTIONS = {
       headers: { authorization: 'Bearer ' + this.localStorage.get('authorization') }
     };
-    return this.http.put<any>(this.API_URL+`/${id}/report`, HTTP_OPTIONS); 
+    return this.http.put<any>(this.API_URL+`/${id}/report`, null, HTTP_OPTIONS); 
   }
 
   getQuestionsByUserId(ordination: any) {
@@ -60,7 +60,7 @@ export class QuestionService {
     const HTTP_OPTIONS = {
       headers: { authorization: 'Bearer ' + this.localStorage.get('authorization') }
     };
-    return this.http.put<any>(this.API_URL+`/${id}/validate?userId=${this.localStorage.get('user_id')}&validation=${approve}`, HTTP_OPTIONS); 
+    return this.http.put<any>(this.API_URL+`/${id}/validate?userId=${this.localStorage.get('user_id')}&validation=${approve}`, null, HTTP_OPTIONS); 
   }
 
   updateQuestion(data: any) {

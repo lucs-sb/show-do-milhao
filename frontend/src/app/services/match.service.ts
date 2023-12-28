@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Match } from '../entities/match';
-import { environment } from '../environment/environment'
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
