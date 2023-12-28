@@ -9,7 +9,7 @@
                 <button class="btn" (click)="deleteAnswers()" [disabled]="isDeleted">Eliminar duas perguntas</button>
                 <button class="btn" (click)="stop()">Parar</button>
             </div>
-            <div class="div-btn"><button class="btn" (click)="report()">Denunciar pergunta ou reposta</button></div>
+            <div class="div-btn"><button class="btn" (click)="report()" [disabled]="reported">Denunciar pergunta ou reposta</button></div>
         </div>
     </div>
     <div class="div-info">

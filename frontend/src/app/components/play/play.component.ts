@@ -36,6 +36,7 @@ export class PlayComponent implements OnInit {
   message: string = '';
   endedAward: string = '';
   isHidden = true;
+  reported = false;
   
   constructor(
     private matchService: MatchService, 
@@ -133,7 +134,6 @@ export class PlayComponent implements OnInit {
       this.matchService.updateMatch(body).subscribe((res) => {
         if(body.ended == false){
           this.info = this.prizeTable[this.lastQuestionAnswered];
-          console.log(this.lastQuestionAnswered);
           this.questionService.getQuestionByIdAndMatchId(this.match?.matchQuestions.find(x => x.position == this.lastQuestionAnswered)?.questionId, this.match?.matchId).subscribe(
             (res) => {
               this.question = res;
@@ -141,6 +141,7 @@ export class PlayComponent implements OnInit {
               this.match?.matchAnswers.filter(x => x.deleted == true).forEach(x => {
                 this.answers = this.answers?.filter(y => y.answerId != x.answerId);
               });
+              this.reported = false;
           });
         }
         else if (reasonForClosing == 'Ganhou'){
@@ -235,7 +236,7 @@ export class PlayComponent implements OnInit {
   }
 
   report(): void{
-    this.questionService.reportQuestion(this.question?.questionId).subscribe();
+    this.questionService.reportQuestion(this.question?.questionId).subscribe(() => this.reported = true);
   }
 
   finish(message: string, award: number) {
@@ -251,6 +252,7 @@ export class PlayComponent implements OnInit {
           this.localStorage.set('match_id', response.toString());
           this.getMatchById();
           this.isHidden = true;
+          this.reported = false;
           this.timeLeft = environment.timePerQuestion;
           this.intervalID = setInterval(() => {
             if (this.isHidden)
