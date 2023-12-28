@@ -4,8 +4,8 @@ import { StorageService } from './storage.service';
 import { User } from '../entities/user';
 import { Login } from '../entities/login';
 import { Router } from '@angular/router';
-import { environment } from '../environment/environment'
 import { AlertService } from './alert.service';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'

@@ -52,7 +52,7 @@
     <div class="mt-3 container" *ngIf="questions.length">
       <div class="page-size">
         <p>Itens por busca:</p>
-        <select id="questions"  (change)="handlePageSizeChange($event)">
+        <select id="pagesize"  (change)="handlePageSizeChange($event)">
           <option *ngFor="let size of pageSizes" [ngValue]="size">
             {{ size }}
           </option>
