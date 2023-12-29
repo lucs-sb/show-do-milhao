@@ -47,3 +47,48 @@ jobs:
         script: |
           pkill -f showdomilhao-0.0.1-SNAPSHOT.jar || true
           sudo systemctl start showdomilhao.service
+  build-front:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Angular Project
+        run: npm run build
+
+      - name: Save build
+        uses: actions/upload-artifact@master
+        with:
+          name: build
+          path: dist/show-do-milhao/
+          if-no-files-found: error
+  deploy-front:
+    runs-on: ubuntu-latest
+    needs: build-front
+    steps:
+      - name: Get build
+        uses: actions/download-artifact@master
+        with:
+          name: build
+          path: dist/show-do-milhao/
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.S3_SECRET_KEY }}
+          aws-secret-access-key: ${{ secrets.S3_ACESS_TOKEN }}
+          aws-region: us-east-1
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync ./dist/show-do-milhao s3://api-show-do-milhao-bucket/
+ 
