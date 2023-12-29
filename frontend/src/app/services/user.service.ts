@@ -32,7 +32,7 @@ export class UserService {
         this.router.navigate(['/home']);
         this.notifier.success('Login efetuado com sucesso');
       }, (error) => {
-        this.notifier.warn('Informações inválidas');
+        this.notifier.warn('nickname ou senha inválido');
       });
   }
 
