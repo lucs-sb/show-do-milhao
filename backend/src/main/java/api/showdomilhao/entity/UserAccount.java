@@ -21,6 +21,7 @@ public class UserAccount {
     private String name;
     private String avatar;
     private Long totalAward;
+    private LocalDateTime deletionDate;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "tb_validation_question_user",

@@ -124,8 +124,11 @@ public class UserAccountService {
             throw new MessageNotFoundException("Usuário não encontrado");
         }));
 
-        loginRepository.delete(login.get());
-        repository.delete(userAccount.get());
+        login.get().setDeletionDate(LocalDateTime.now());
+        userAccount.get().setDeletionDate(LocalDateTime.now());
+
+        loginRepository.save(login.get());
+        repository.save(userAccount.get());
     }
 
     @Transactional(readOnly = true)
