@@ -44,17 +44,24 @@ export class UserService {
   }
 
   addUser(user: any) {
-    const HTTP_OPTIONS = {
-      headers: { authorization: 'Bearer ' + this.localStorage.get('authorization') }
-    };
-    return this.http.post<any>(this.API_URL, user); 
+    const body = new FormData();
+    body.append('name', user.name);
+    body.append('nickname', user.nickname);
+    body.append('password', user.password);
+    body.append('avatar', user.avatar);
+    return this.http.post<any>(this.API_URL, body); 
   }
 
   updateUser(user: any, id: any) {
     const HTTP_OPTIONS = {
       headers: { authorization: 'Bearer ' + this.localStorage.get('authorization') }
     };
-    return this.http.put<any>(this.API_URL+`/${id}`, user, HTTP_OPTIONS); 
+    const body = new FormData();
+    body.append('name', user.name);
+    body.append('nickname', user.nickname);
+    body.append('password', user.password);
+    body.append('avatar', user.avatar);
+    return this.http.put<any>(this.API_URL+`/${id}`, body, HTTP_OPTIONS); 
   }
 
   deleteUser(id: any) {

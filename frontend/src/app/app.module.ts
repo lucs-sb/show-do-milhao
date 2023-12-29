@@ -16,6 +16,7 @@ import { QuestionManagementComponent } from './components/question-management/qu
 import { NgxPaginationModule } from 'ngx-pagination';
 import { QuestionManagementApprovalComponent } from './components/question-management-approval/question-management-approval.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AlertComponent } from './components/alert/alert.component';
     HalldafamaComponent,
     QuestionManagementComponent,
     QuestionManagementApprovalComponent,
-    AlertComponent
+    AlertComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,

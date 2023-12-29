@@ -89,7 +89,7 @@ public class UserAccountService {
     }
 
     @Transactional
-    public void updateUserById(Long id, UserAccountDTO newUserAccount) {
+    public void updateUserById(Long id, String name, String nickname, String password, MultipartFile avatar) {
         Optional<UserAccount> userAccount = Optional.ofNullable(repository.findById(id).orElseThrow(() -> {
             throw new MessageNotFoundException("Usuário não encontrado");
         }));
@@ -98,16 +98,19 @@ public class UserAccountService {
             throw new MessageNotFoundException("Usuário não encontrado");
         }));
 
-        if (newUserAccount.getName() != null && !newUserAccount.getName().isBlank())
-            userAccount.get().setName(newUserAccount.getName());
-        if (newUserAccount.getNickname() != null && !newUserAccount.getNickname().isBlank() && repository.findUserByNickname(newUserAccount.getNickname()).isEmpty())
-            userAccount.get().setNickname(newUserAccount.getNickname());
+        if (avatar != null)
+            userAccount.get().setAvatar(saveFile(avatar));
+
+        if (name != null && !name.isBlank())
+            userAccount.get().setName(name);
+        if (nickname != null && !nickname.isBlank() && repository.findUserByNickname(nickname).isEmpty())
+            userAccount.get().setNickname(nickname);
         repository.save(userAccount.get());
 
-        if (newUserAccount.getNickname() != null && !newUserAccount.getNickname().isBlank())
+        if (nickname != null && !nickname.isBlank())
             login.get().setNickname(userAccount.get().getNickname());
-        if (newUserAccount.getPassword() != null && !newUserAccount.getPassword().isBlank())
-            login.get().setPassword(passwordEncoder.encode(newUserAccount.getPassword()));
+        if (password != null && !password.isBlank())
+            login.get().setPassword(passwordEncoder.encode(password));
         loginRepository.save(login.get());
     }
 

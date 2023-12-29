@@ -109,9 +109,9 @@ public class UserAccountController {
     })
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public ResponseEntity updateUser(@PathVariable Long id, @RequestBody UserAccountDTO newUser) throws Exception{
+    public ResponseEntity updateUser(@PathVariable Long id, @RequestParam String name, @RequestParam String nickname, @RequestParam String password, @RequestParam @Nullable MultipartFile avatar) throws Exception{
         try {
-            service.updateUserById(id, newUser);
+            service.updateUserById(id, name, nickname, password, avatar);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e){
             throw new Exception(e);

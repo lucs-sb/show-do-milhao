@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
     name: ['', [Validators.required]],
     nickname: ['', [Validators.required]],
     password: ['', [Validators.required]],
-    avatar: ''
+    avatar: null
   });
 
   data: any;
@@ -36,6 +36,7 @@ export class RegisterComponent implements OnInit {
         this.notifier.info('Preencha todos os campos obrigatórios');
 
       this.data = this.formUser.value;
+      
       this.registerService.addUser(this.data).subscribe(() => {
         this.storage.logoutUser();
         this.router.navigate(['/']);

@@ -75,3 +75,9 @@ p:after {
     left: 0.5em;
     margin-right: -50%;
 }
+
+#div-file{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

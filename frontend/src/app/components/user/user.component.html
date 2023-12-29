@@ -49,9 +49,8 @@
                         <input class="input" type="password" formControlName="password" placeholder="Senha">
                     </div>
                     
-                    <div class="form-outline form-white mb-2">  
-                        <label>Avatar</label>
-                        <input class="input" type="text" formControlName="url_photo" placeholder="URL da foto" required>
+                    <div class="form-outline form-white mb-2" id="div-file">
+                        <app-file-upload formControlName="avatar"></app-file-upload>
                     </div>
                 </form>
             </div>

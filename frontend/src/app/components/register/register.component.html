@@ -13,10 +13,6 @@
       </div>
 
       <div class="form-outline form-white mb-2">
-        <input class="input" id="url_photo" type="text" formControlName="url_photo" placeholder="Avatar">
-      </div>
-      
-      <div class="form-outline form-white mb-2">
         <input class="input" id="nickname" type="text" formControlName="nickname" placeholder="Nickname" required>
         <div *ngIf="formUser.get('nickname')?.errors?.['nickname'] && formUser.get('nickname')?.touched" style="color: red;">
           Nickname obrigatório
@@ -29,7 +25,11 @@
           Senha obrigatória
         </div>
       </div>
-
+      
+      <div class="form-outline form-white mb-2" id="div-file">
+        <app-file-upload formControlName="avatar"></app-file-upload>
+      </div>
+      
       <div class="div-btn">
         <button type="submit"  (click)="register()" class="btn btn-lg px-5 mt-3">
           Criar conta

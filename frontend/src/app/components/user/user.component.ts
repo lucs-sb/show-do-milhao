@@ -18,7 +18,7 @@ export class UserComponent implements OnInit {
     name: '',
     nickname: '',
     password: '',
-    url_photo: ''
+    avatar: null
   });
   data: any;
 
@@ -42,7 +42,7 @@ export class UserComponent implements OnInit {
 
   updateUser(): void{
     try {
-      if(this.formUser.value.name || this.formUser.value.nickname || this.formUser.value.password || this.formUser.value.url_photo){
+      if(this.formUser.value.name || this.formUser.value.nickname || this.formUser.value.password || this.formUser.value.avatar){
         this.data = this.formUser.value;
 
         this.userService.updateUser(this.data, this.localStorage.get("user_id")).subscribe(() => {
@@ -51,7 +51,7 @@ export class UserComponent implements OnInit {
             name: '',
             nickname: '',
             password: '',
-            url_photo: ''
+            avatar: null
           });
           this.getUserById();
         }, () => {
