@@ -60,7 +60,7 @@ jobs:
           node-version: '20'
 
       - name: Install Dependencies
-        run: npm install /home/runner/work/show-do-milhao/frontend
+        run: npm install /frontend
 
       - name: Build Angular Project
         run: npm run build
