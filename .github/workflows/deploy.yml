@@ -60,7 +60,7 @@ jobs:
           node-version: '20'
           
       - name: Entering the folder frontend
-        run: cd frontend
+        run: cd /frontend
 
       - name: teste
         run: ls
