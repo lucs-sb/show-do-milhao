@@ -21,10 +21,6 @@
     grid-area: form;
 }
 
-.div-info{
-    grid-area: info;
-}
-
 .question{
     display: flex;
     align-items: center;
@@ -34,17 +30,6 @@
     background-color: var(--bs-tertiary-bg-rgb);
     border: 2px solid var(--bs-light);
     border-radius: 10px;
-}
-
-.question p {
-    color: var(--bs-light);
-}
-
-.answers{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 }
 
 .answer{
@@ -94,12 +79,6 @@
     border: 2px solid var(--bs-light);
     width: 80%;
     background-color: var(--bs-tertiary-bg-rgb);
-}
-
-.div-info{
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .infos{
@@ -170,10 +149,6 @@
     top: 5%;
     right: 10%;
     width: 5%;
-}
-
-.modal {
-    display: block;
 }
 
 @media(max-width: 1000px){

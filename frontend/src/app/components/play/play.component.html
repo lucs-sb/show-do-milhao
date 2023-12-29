@@ -2,8 +2,8 @@
 
 <div class="container">
     <div class="div-form">
-        <div class="question"><p>{{question?.statement}}</p></div>
-        <div class="answers">
+        <div class="question"><p style="color: var(--bs-light);">{{question?.statement}}</p></div>
+        <div class="answers" style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
             <button *ngFor="let answer of answers; let i = index" class="answer" (click)="respond(answer)"><div class="div-number">{{i+1}}</div>{{answer.description}}</button>
             <div class="div-btn">
                 <button class="btn" (click)="deleteAnswers()" [disabled]="isDeleted">Eliminar duas perguntas</button>
@@ -12,7 +12,7 @@
             <div class="div-btn"><button class="btn" (click)="report()" [disabled]="reported">Denunciar pergunta ou reposta</button></div>
         </div>
     </div>
-    <div class="div-info">
+    <div class="div-info" style="grid-area: info; display: flex; align-items: center; justify-content: center;">
         <div class="time">{{timeLeft}} seg</div>
         <div class="infos">
             <div class="infos1">
@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<div class="modal" id="exampleModal" tabindex="-1" [hidden]="isHidden">
+<div class="modal" id="exampleModal" tabindex="-1" style="display: block;" [hidden]="isHidden">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
