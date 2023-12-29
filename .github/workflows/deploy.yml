@@ -62,6 +62,9 @@ jobs:
       - name: Entering the folder frontend
         run: cd frontend
 
+      - name: teste
+        run: ls
+
       - name: Install Dependencies
         run: npm install
 
