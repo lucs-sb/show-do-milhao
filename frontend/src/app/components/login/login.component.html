@@ -7,9 +7,9 @@
       <h3 id="h3-form" class="fw-bold mb-1 text-uppercase">Faça login para continuar</h3>
       
       <div class="form-outline form-white mb-2">
-        <input class="input" id="email" type="text" formControlName="email" placeholder="E-mail" required>
-        <div *ngIf="formUser.get('email')?.errors?.['required'] && formUser.get('email')?.touched" style="color: red;">
-          E-mail obrigatório
+        <input class="input" id="nickname" type="text" formControlName="nickname" placeholder="Nickname" required>
+        <div *ngIf="formUser.get('nickname')?.errors?.['required'] && formUser.get('nickname')?.touched" style="color: red;">
+          Nickname obrigatório
         </div>
       </div>
       

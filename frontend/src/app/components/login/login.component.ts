@@ -12,7 +12,7 @@ import { AlertService } from 'src/app/services/alert.service';
 export class LoginComponent implements OnInit {
 
   formUser = this.formBuilder.group({
-    email: ['', [Validators.required]],
+    nickname: ['', [Validators.required]],
     password: ['', [Validators.required]]
   });
 
@@ -28,10 +28,10 @@ export class LoginComponent implements OnInit {
 
   login() {
     try {
-      if(!this.formUser.value.email || !this.formUser.value.password)
+      if(!this.formUser.value.nickname || !this.formUser.value.password)
         this.notifier.error('Preencha todos os campos');
 
-      this.loginService.login(this.formUser.value.email, this.formUser.value.password);
+      this.loginService.login(this.formUser.value.nickname, this.formUser.value.password);
     }
     catch (ex: any) {
       this.notifier.error(ex);
