@@ -144,8 +144,7 @@ public class UserAccountService {
 
         try {
             amazonS3.putObject(new PutObjectRequest(BUCKET,
-                    ramdom + "." + extractExtencion(file.getOriginalFilename()), file.getInputStream(),null)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
+                    ramdom + "." + extractExtencion(file.getOriginalFilename()), file.getInputStream(),null));
             return "http://s3.amazonaws.com/"+BUCKET+"/" + ramdom + "." + extractExtencion(file.getOriginalFilename());
         } catch (IllegalStateException | IOException e) {
             throw new RuntimeException("Problemas na tentativa de salvar o arquivo");
