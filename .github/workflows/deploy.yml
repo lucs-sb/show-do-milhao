@@ -91,5 +91,4 @@ jobs:
         USER_NAME: ${{ secrets.AWS_EC2_USER }}
         PRIVATE_KEY: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
         script: |
-          pkill -f showdomilhao-0.0.1-SNAPSHOT.jar || true
-          sudo systemctl start showdomilhao.service
+          sudo systemctl restart showdomilhao.service
