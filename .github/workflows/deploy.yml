@@ -71,9 +71,6 @@ jobs:
         sed -i 's|spring.datasource.username=${MYSQL_USERNAME:root}|spring.datasource.username=${{secrets.MYSQL_USERNAME}}|g' backend/src/main/resources/application.properties
         sed -i 's|spring.datasource.password=${MYSQL_PASSWORD:root}|spring.datasource.password=${{secrets.MYSQL_PASSWORD}}|g' backend/src/main/resources/application.properties
         sed -i 's|api.show_do_milhao.token.secret=${JWT_SECRET:my_token_secret}|api.show_do_milhao.token.secret=${{secrets.JWT_SECRET}}|g' backend/src/main/resources/application.properties
-        sed -i 's|amazon.s3.secret.key=${S3_ACESS_TOKEN:my-secret-key}|amazon.s3.secret.key=${{secrets.S3_SECRET_KEY}}|g' backend/src/main/resources/application.properties
-        sed -i 's|amazon.s3.acess.key=${S3_ACESS_TOKEN:my-cess-key}|amazon.s3.acess.key=${{secrets.S3_ACESS_TOKEN}}|g' backend/src/main/resources/application.properties
-        sed -i 's|amazon.s3.bucket=${S3_BUCKET:bucket}|amazon.s3.bucket=${{secrets.S3_BUCKET}}|g' backend/src/main/resources/application.properties
               
     - name: Build with Maven
       run: mvn -f backend/pom.xml clean install
