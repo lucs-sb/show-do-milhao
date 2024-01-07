@@ -110,9 +110,9 @@ export class PlayComponent implements OnInit {
         else if(lastQuestionAnswered == 1)
         this.award = 500;
         else{
-          this.award = Number.parseInt(this.info[2].split(' ')[2]) * 1000;
+          this.award = Number.parseFloat(this.info[2].split(' ')[1]) * 1000;
         }
-
+        
         ended = true;
         reasonForClosing = 'Perdeu';
       }
