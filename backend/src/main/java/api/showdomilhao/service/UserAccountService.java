@@ -73,6 +73,7 @@ public class UserAccountService {
 
         userAccount.get().setName(name);
         userAccount.get().setNickname(nickname);
+        userAccount.get().setTotalAward(0L);
         repository.save(userAccount.get());
 
         Login login = new Login();
